@@ -1,0 +1,18 @@
+.search-bar {
+  display: flex;
+  flex: 0.7;
+  align-items: center;
+  background-color: whitesmoke;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.search-bar > .MuiSvgIcon-root {
+  color: grey;
+}
+
+.search-bar > input {
+  border: none;
+  width: 100%;
+  padding: 10px;
+}

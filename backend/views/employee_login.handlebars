@@ -1,0 +1,42 @@
+{{!-- navbar --}}
+<nav class="navbar bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/logo">
+      <img src="/images/navLogoEm.png" alt="navLogoCom" class="d-inline-block align-text-top"  style="max-height: 130px; max-width: 130px;">
+    </a>
+  </div>
+</nav>
+
+
+
+<div class="container container-fluid col">
+    <form action="/employee_login" method="POST">
+        <br>
+        <h1 class="text-center" style="color:#322975">Employee Login</h1>
+        <br>
+
+        <!-- Enter Email -->
+        <div class="row">
+            <div class="col">
+                <p class="wrapper">
+                    <input type="email" class="form-control" name="email" placeholder="&#xf003   Email" aria-label="Email">
+                </p>
+            </div>
+        </div>
+
+        <!-- Enter Password -->
+        <div class="row">
+            <div class="col">
+                <p class="wrapper">
+                    <input type="password" class="form-control" name="password" placeholder="&#xf023   ********" aria-label="password">
+                </p>
+            </div>
+        </div>
+
+        <br>
+
+        <!--Submit Btn-->
+        <button type="submit" class="btn btn-ml" style="background-color:#d1cfdd; color:#322975"><i class="fa-solid fa-circle-right fa-xl"></i> &nbsp;&nbsp; Submit</button>
+        <br>
+    </form>
+</div>

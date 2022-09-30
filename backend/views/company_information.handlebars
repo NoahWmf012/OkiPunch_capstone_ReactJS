@@ -1,0 +1,169 @@
+{{!-- CSS google font --}}
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap" rel="stylesheet">
+</head>
+
+{{!-- nav bar --}}
+<section>
+    <nav class="navbar bg-light d-flex justify-content-center align-items-center">
+        <div class="container-fluid">
+            <a href="/"><i class="fa-solid fa-chevron-left fa-xl" style="color:#3B4856"></i></a>
+            <p class="position-absolute top-50 start-50 translate-middle">Employee Information</p>
+        </div>
+    </nav>
+    <br>
+
+    <!--Each employee information-->
+    <div class='row' id="eachEm">
+        <div>
+            <div class="text-center">
+                <img class="col-12" src="../../../../images/company_employeeSum.jpg"
+                    style="max-width:150px; border-radius: 50%;">
+                <br>
+                <br>
+                <h1 id="aliasCompany"> </h1>
+                <h2 id="titleCompany" class="text-secondary"> </h2>
+                <button class="btn" id="editInfoBtnCom" style="background-color: #d2dce4;">
+                    <i class="fa-solid fa-user-pen fa-xl" style="color:#3B4856"></i>
+                </button>
+                <br>
+            </div>
+            <hr> <br>
+
+            <p id="staffNoCompany"><i class="fa-solid fa-hashtag" style="color:#9EADBD"></i> Staff no.: &nbsp;&nbsp;</p>
+
+            <p id="nameCompany"><i class="fa-solid fa-a" style="color:#9EADBD"></i> Name: &nbsp;&nbsp;</p>
+
+            <p id="hourlyrateCompany"><i class="fa-solid fa-sack-dollar" style="color:#9EADBD"></i> Hourly rate:
+                &nbsp;&nbsp;</p>
+
+            <p id="active_statusCompany"><i class="fa-solid fa-clipboard-user" style="color:#9EADBD"></i> Active status:
+                &nbsp;&nbsp;</p>
+
+            <p id="phoneNoCompany"><i class="fa-solid fa-phone" style="color:#9EADBD"></i> Phone no.: &nbsp;&nbsp;</p>
+
+            <p id="addressCompany"><i class="fa-solid fa-house-chimney" style="color:#9EADBD"></i> Address: &nbsp;&nbsp;
+            </p>
+
+            <p id="dateOfBirthCompanye"><i class="fa-regular fa-calendar-days" style="color:#9EADBD"></i> Date of birth:
+                &nbsp;&nbsp;</p>
+
+            <p id="genderCompany"><i class="fa-solid fa-person-half-dress" style="color:#9EADBD"></i> Gender:
+                &nbsp;&nbsp;</p>
+
+        </div>
+
+        <hr>
+
+    </div>
+
+    {{!-- edit employee information form --}}
+    <style>
+        body {
+            background-color: #f5f5f5;
+            color: #3B4856;
+            font-family: 'Source Serif Pro', serif;
+
+        }
+
+        .hide {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 1px;
+            height: 1px;
+        }
+    </style>
+
+    <iframe name="hiddenFrame" class="hide"></iframe>
+
+    <form id="formPost" method="post" target="hiddenFrame">
+
+        <div id="editForm" style="visibility: hidden; border:black;">
+            <div class="mb-3">
+                <label for="editTitle" class="form-label">Title</label>
+                <input type="text" name="title" class="form-control" id="editTitle">
+            </div>
+            <div class="mb-3">
+                <label for="editHourlyRate" class="form-label">Hourly rate</label>
+                <input type="number" name="hourly_rate" class="form-control" id="editHourlyRate">
+            </div>
+            <div class="mb-3">
+                <label for="editActiveStatus" class="form-label">Active status</label>
+                <input type="text" name="active_status" class="form-control" id="editActiveStatus">
+            </div>
+            <div class="mb-3">
+                <label for="editPhoneNo" class="form-label">Phone number</label>
+                <input type="tel" name="phone_number" class="form-control" id="editPhoneNo">
+            </div>
+            <div class="mb-3">
+                <label for="editAddress" class="form-label">Address</label>
+                <textarea class="form-control" name="address" id="editAddress" rows="3"></textarea>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <button type="submit" class="btn" id="submitInfoBtnCom"
+                    style="background-color: #205072; color:#9EADBD "> <i class="fa-regular fa-circle-check"></i>
+                    Submit
+                </button>
+            </div>
+            <br> <br>
+        </div>
+    </form>
+</section>
+
+
+{{!-- for edit calendar --}}
+<script>
+    document.getElementById("editInfoBtnCom").onclick = function () {
+        document.getElementById("editForm").style.visibility = "visible";
+    }
+
+    document.getElementById("submitInfoBtnCom").onclick = function () {
+        var editForm = document.getElementById("editForm");
+        editForm.style.visibility = "hidden";
+    }
+</script>
+
+
+
+<script>
+
+    let id;
+
+    id = window.location.href.split('/worker')[1].split('/')[1];
+
+    $(document).ready(function () {
+        $("#formPost").attr("action", `/biz/worker/${id}/info/update`);
+    })
+
+
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8000/biz/worker/${id}/info/api`,
+        async: true,
+        success: function (result) {
+            //show employee information
+            $("#aliasCompany").append(result.alias);
+            $("#titleCompany").append(result.title);
+            $("#staffNoCompany").append(result.employee_id);
+            $("#nameCompany").append(result.last_name + " " + result.first_name);
+            $("#hourlyrateCompany").append(result.hourly_rate + "/h");
+            $("#active_statusCompany").append(result.active_status);
+            $("#phoneNoCompany").append(result.phone_number);
+            $("#addressCompany").append(result.address);
+            $("#dateOfBirthCompanye").append(result.date_of_birth);
+            $("#genderCompany").append(result.gender);
+
+
+            //show update form value
+            $("#editTitle").val(result.title);
+            $("#editHourlyRate").val(result.hourly_rate);
+            $("#editPhoneNo").val(result.phone_number);
+            $("#editAddress").val(result.address);
+            $("#editActiveStatus").val(result.active_status);
+        }
+    })
+</script>

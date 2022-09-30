@@ -1,0 +1,196 @@
+{{!-- link to calendar css to change theme --}}
+
+<head>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.<net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../library/calendar/evo-calendar.orange-coral.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../library/calendar/evo-calendar.midnight-blue.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../../library/calendar/evo-calendar.royal-navy.min.css">
+</head>
+
+
+{{!-- nav bar --}}
+<nav class="navbar bg-light d-flex justify-content-center align-items-center">
+    <div class="container-fluid">
+        <a href="/"><i class="fa-solid fa-chevron-left fa-xl text-warning"></i></a>
+        <p class="position-absolute top-50 start-50 translate-middle">Employee Calendar</p>
+    </div>
+</nav>
+<br>
+
+{{!-- body --}}
+<section id="demos">
+    <div class="section-content">
+        <div class="log-content">
+            <div class="--noshadow" id="evoCalendarCom"></div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center align-items-center">
+            <button type="button" class="btn" id="editBtn" style="background-color: #205072; color: white"><i
+                    class="fa-regular fa-pen-to-square"></i> Edit</button>
+        </div>
+
+        {{!-- <div class="action-buttons d-flex justify-content-center align-items-center">
+            <button type="button" class="editBtn btn btn-action" id="addBtn">ADD EVENT</button>
+            <button type="button" class="deleteBtn btn-action" id="removeBtn" disabled>REMOVE EVENT</button>
+        </div> --}}
+
+        <br>
+
+        {{!-- hidden update form --}}
+        <iframe name="hiddenFrame" class="hide"></iframe>
+
+        <form id="formPostCal" method="post" target="hiddenFrame">
+            <div id="card" style="visibility: hidden; border:black; color:#9EADBD">
+                {{!-- enter old info --}}
+                <h4 style="color:#205072">Please enter the information that you want to update:</h4>
+                <div class="mb-3">
+                    <label for="inputDate" class="form-label">Chooseing the date you want to update</label>
+                    <input name="old_in_date" type="date" class="form-control" id="inputDate"
+                        placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label for="editInTime" class="form-label">Enter the in time you want to update</label>
+                    <input type="text" name="old_in_time" class="form-control" id="editInTime" rows="3"
+                        placeholder="12:30:00"></input>
+                </div>
+
+                <br>
+                {{!-- enter new info --}}
+                <h4 style="color:#205072">Please enter the new attendance:</h4>
+                <div class="mb-3">
+                    <label for="editStatus" class="form-label">Status</label>
+                    <input name="new_status" type="text" class="form-control" id="editStatus" rows="3"
+                        placeholder="ON_TIME / LATE / ABSENT / EARLY GOING / HALF DAY"></input>
+                </div>
+                <div class="mb-3">
+                    <label for="editInTime" class="form-label">In time</label>
+                    <input name="new_in_time" class="form-control" id="editInTime" rows="3"
+                        placeholder="08:50:01"></input>
+                </div>
+                <div class="mb-3">
+                    <label for="editOutTime" class="form-label">Out time</label>
+                    <input name="new_out_time" class="form-control" id="editOutTime" rows="3"
+                        placeholder="18:01:20"></input>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <button type="submit" class="btn bg-light" id="submitBtn"> <i
+                            class="fa-regular fa-circle-check"></i>
+                        Submit
+                    </button>
+                </div>
+                <br>
+            </div>
+        </form>
+
+    </div>
+    <br>
+</section>
+
+<style>
+    body {
+        background-color: rgb(241, 242, 242);
+    }
+
+    .hide {
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        width: 1px;
+        height: 1px;
+    }
+</style>
+
+
+{{!-- showing the edit form--}}
+<script>
+    document.getElementById("editBtn").onclick = function () {
+        var card = document.getElementById("card");
+        card.style.visibility = "visible";
+    }
+
+    document.getElementById("submitBtn").onclick = function () {
+        var card = document.getElementById("card");
+        card.style.visibility = "hidden";
+    }
+
+
+</script>
+
+
+
+{{!-- compamny calendar - show data --}}
+<script>
+    let id;
+
+    id = window.location.href.split('/worker')[1].split('/')[1];
+
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8000/biz/worker/${id}/calendar/api`,
+        async: true,
+        success: function (result) {
+
+            console.log(result);
+
+            let status_id;
+            let cal_array = [];
+            let eventTypeArray2 = [];
+            for (let c = 0; c < result.date.length; c++) {
+                if (result.status[c] == "ON_TIME") {
+                    status_id = "1";
+                    eventTypeArray2.push("birthday");
+                } else if (result.status[c] == "LATE") {
+                    status_id = "2";
+                    eventTypeArray2.push("event");
+                } else if (result.status[c] == "ABSENT") {
+                    status_id = "3";
+                    eventTypeArray2.push("event");
+                } else if (result.status[c] == "EARLY GOING") {
+                    status_id = "4";
+                    eventTypeArray2.push("holiday");
+                } else if (result.status[c] == "HALF DAY") {
+                    status_id = "5";
+                    eventTypeArray2.push("holiday");
+                }
+
+                cal_array.push({
+                    id: status_id,//staff_id
+                    name: result.status[c],//"Punctual", "Late", "Absence"
+                    description: result.description[c],//additional information e.g.late/absence reason
+                    date: result.date[c], //default format: February/15/1999  ,or  [ today.getMonth() + 1 + "/" + week_date.start + "/" + today.getFullYear(), today.getMonth() + 1 + "/" + week_date.end + "/" + today.getFullYear() ]
+                    type: eventTypeArray2[c], //"punctual", "late", "absence" // color according to the type
+                })
+
+                c = c++
+            }
+
+            $("#evoCalendarCom").evoCalendar({
+                format: "yyyy/mm/dd", // default format: MM dd, yyyy
+                titleFormat: "MM",
+                theme: "Royal Navy", //Midnight Blue, Orange Coral, Royal Navy
+                calendarEvents:
+                    cal_array
+            });
+        }
+    });
+</script>
+
+
+
+{{!-- compamny_calendar - edit data --}}
+<script>
+    let idUpdate;
+    idUpdate = window.location.href.split('/worker')[1].split('/')[1];
+
+    $(document).ready(function () {
+        $("#formPostCal").attr("action", `/biz/worker/${id}/calendar/update`);
+        $("#submitBtn").attr("href", `http://localhost:8000/biz/worker/${id}/calendar`);
+    })
+</script>
+
+
+
+
+{{!-- link to company calendar setting js --}}
+<script src="../../../../company_calendar.js"></script>
