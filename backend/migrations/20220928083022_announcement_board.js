@@ -8,8 +8,7 @@ exports.up = function (knex) {
         table.integer("department_id");
         table.foreign("department_id").references("department.id");
         table.string("announcement");
-        // table.time('created_at');
-        table.timestamps(true, false); //create_at & updated_at as paras
+        table.date('created_at');
     })
 };
 

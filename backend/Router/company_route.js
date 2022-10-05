@@ -1,5 +1,5 @@
 const { json } = require("body-parser");
-const Auth = require("./company_AuthRouter");
+const Auth = require("./adminRouter");
 
 class nodeRouterCompany {
     constructor(companyService, express, passport) {

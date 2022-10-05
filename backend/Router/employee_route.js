@@ -1,5 +1,5 @@
 const { json } = require("body-parser");
-const Auth = require("./employee_AuthRouter");
+const Auth = require("./employeeRouter");
 class nodeRouterEmployee {
     constructor(nodeServiceEmployee, express) {
         this.nodeServiceEmployee = nodeServiceEmployee;

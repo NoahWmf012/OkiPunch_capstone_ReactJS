@@ -5,8 +5,8 @@
 exports.up = function (knex) {
     return knex.schema.createTable('users', (table) => {
         table.increments().primary(); //equal to employee_id
-        table.string("username");
-        table.string("email");
+        table.string("username").unique();
+        table.string("email").unique();
         table.string("password");
         table.enu('role', ['employee', 'admin'])
     })

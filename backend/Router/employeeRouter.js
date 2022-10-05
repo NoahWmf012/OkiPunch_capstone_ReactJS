@@ -30,7 +30,7 @@ class emAuthRouter {
     router() {
         let router = this.express.Router();
 
-        router.post("/employee/login", async (req, res) => {
+        router.post("/login", async (req, res) => {
             //handle email and password login
             const { username, password } = req.body;
             console.log("Backend username, password:", username, password);

@@ -74,11 +74,9 @@ $(document).ready(function () {
     $.ajax({
         type: "GET",
         url: `http://localhost:8000/employee/calendar/api`,
-        async:true,
+        async: true,
         success: function (result) {
             console.log(result);
-            // console.log(result.date.length);
-
             let status_id;
             let cal_array = []
             let eventTypeArray = [];
@@ -99,7 +97,7 @@ $(document).ready(function () {
                     status_id = "5";
                     eventTypeArray.push("holiday");
                 }
-                
+
                 cal_array.push({
                     id: status_id,//staff_id
                     name: result.status[c],//"Punctual", "Late", "Absence"
@@ -116,13 +114,13 @@ $(document).ready(function () {
                 titleFormat: "MM",
                 // theme:"Midnight Blue",
                 calendarEvents:
-                    cal_array 
+                    cal_array
             });
         }
     });
 
 
-    
+
 
 
     $("[data-set-theme]").click(function (b) {

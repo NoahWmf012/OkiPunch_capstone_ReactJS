@@ -6,9 +6,9 @@ const passport = require('passport');
 const setupPassport = require("./passport");
 const bcrypt = require("bcrypt");
 const session = require('express-session');
-const comAuthRouter = require("./Router/company_AuthRouter");
-const emAuthRouter = require("./Router/employee_AuthRouter")
-const PageRouter = require("./Router/pageRouter");
+const comAuthRouter = require("./Router/adminRouter");
+const emAuthRouter = require("./Router/employeeRouter")
+// const PageRouter = require("./Router/pageRouter");
 const flash = require("express-flash");
 const createClient = require('redis');
 const jwt = require('jsonwebtoken');
@@ -21,17 +21,6 @@ const knexConfig = require("./knexfile")["development"];
 const knex = require("knex")(knexConfig);
 
 const port = 8000;
-
-
-
-//Node Service
-const nodeServiceCompany = require("./Service/company_service.js");
-const nodeServiceEmployee = require("./Service/employee_service.js");
-//Node Router
-const nodeRouterCompany = require("./Router/company_route.js");
-const nodeRouterEmployee = require("./Router/employee_route.js");
-
-
 
 //express middleware
 app.use(express.urlencoded({ extended: false }));
@@ -62,11 +51,8 @@ app.get("/logo", (req, res) => {
 })
 
 //set up node router
-app.use("/", new PageRouter(express).router());
-app.use("/", new comAuthRouter(express, passport, bcrypt, knex).router());
-app.use("/admin", new nodeRouterCompany(new nodeServiceCompany(knex), express, passport).router());
-app.use("/", new emAuthRouter(express, passport, bcrypt, knex).router());
-app.use("/employee", new nodeRouterEmployee(new nodeServiceEmployee(knex), express).router());
+app.use("/admin", new comAuthRouter(express, passport, bcrypt, knex).router());
+app.use("/employee", new emAuthRouter(express, passport, bcrypt, knex).router());
 
 app.listen(port, () => {
     console.log(

@@ -6,8 +6,8 @@ exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('department').del()
   await knex('department').insert([
-    { name: 'Operating' },
-    { name: 'R&D' },
-    { name: 'Frontdesk' }
+    { department_name: 'Operating' },
+    { department_name: 'R&D' },
+    { department_name: 'Frontdesk' }
   ]);
 };
