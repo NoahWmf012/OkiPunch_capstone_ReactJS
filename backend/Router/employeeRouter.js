@@ -1,4 +1,28 @@
 const jwt = require("jsonwebtoken");
+const { createClient } = require("redis");
+var QRCode = require('qrcode');
+
+var setJson = {
+    "employee_id": "1",
+    "role": "employee"
+}
+
+const stJon = JSON.stringify(setJson);
+
+QRCode.toFile(
+    'qr.png',
+    stJon, function (err) {
+        if (err) {
+            return console.log("QRCode error:", err);
+        }
+    }
+)
+
+// QRCode.toDataURL(stJon, function (err, url) {
+//     if (err) return console.log(err);
+//     console.log(url);
+// })
+
 class emAuthRouter {
     constructor(express, passport, bcrypt, knex) {
         this.express = express;
@@ -7,25 +31,17 @@ class emAuthRouter {
         this.knex = knex;
     }
 
-    isLogged(req, res, next) {
+    isAdminLogged(req, res, next) {
         if (req.isAuthenticated()) {
-            return next();
+            if (req.user.role === "employee") {
+                return next();
+            }
+            res.send("Only employee is allowed to enter this page");
         }
         res.redirect("/employee_login");
     }
 
-    isNotLogged(req, res, next) {
-        if (!req.isAuthenticated()) {
-            return next();
-        }
-        res.redirect("/");
-    }
 
-    isEmployeeLogged(req, res, next) {
-        if (req.isAuthenticated() && req.user.role == "employee") {
-            return next();
-        }
-    }
 
     router() {
         let router = this.express.Router();
@@ -33,7 +49,6 @@ class emAuthRouter {
         router.post("/login", async (req, res) => {
             //handle email and password login
             const { username, password } = req.body;
-            console.log("Backend username, password:", username, password);
             let user = await this.knex("users").where({ username }).first();
             if (user) {
                 //check role first
@@ -42,33 +57,89 @@ class emAuthRouter {
                     return;
                 }
                 //check password
-                this.bcrypt.compare(password, user.password, function (err, result) {
-                    console.log("Login success:", user.role)
-                    if (result) {
-                        const payload = {
-                            id: user.id,
-                            username: user.username,
-                            role: user.role
+                try {
+                    this.bcrypt.compare(password, user.password, function (err, result) {
+                        console.log("Login success:", user.role)
+                        if (result) {
+                            const payload = {
+                                id: user.id,
+                                username: user.username,
+                                role: user.role
+                            }
+                            const token = jwt.sign(payload, process.env.JWT_SECRET);
+                            res.json({ token });
+                        } else {
+                            res.status(401).json("Invalid password.");
                         }
-                        const token = jwt.sign(payload, process.env.JWT_SECRET);
-                        res.json({ token });
-                    } else {
-                        res.status(401).json("Invalid password.");
-                    }
-                });
+                    });
+                } catch (error) {
+                    res.status(401).json("Invalid to login:", error);
+                }
             } else {
                 res.status(401).json("Invalid username.");
             }
         });
 
-        router.get("/logout", this.isLogged, (req, res) => {
-            req.logout(function (err) {
-                if (err) {
-                    return err;
+        //for calendar display
+        router.get("/calendar/:employee_id", async (req, res) => {
+            //table: daily_attendance
+            let employee_id = req.params.employee_id;
+            try {
+                let data = await this.knex('daily_attendance').where({ employee_id });
+                res.json(data);
+            } catch (error) {
+                res.json("Invalide to get punch record: ", error);
+            }
+        })
+
+        //for punch-in / punch-put
+        router.get("/punch/:employee_id", async (req, res) => {
+            //table: daily_attendance
+            let employee_id = req.params.employee_id;
+            try {
+                let data = await this.knex('daily_attendance').where({ employee_id }).andWhere("out_time", 'is', null).whereNotNull("date").orderBy('date', 'desc').limit(1).first();
+                res.json(data);
+            } catch (error) {
+                res.json("Invalide to get punch record: ", error);
+            }
+        })
+
+        router.put("/punchout", async (req, res) => {
+            //table: daily_attendance, salary
+            let { id, out_time, day_working_hour, status } = req.body;
+            //status Enum('ON_TIME', 'LATE', 'ABSENT', 'EARLY GOING', 'HALF DAY')
+            let data = await this.knex('daily_attendance').where({ id }).first();
+            if (data) {
+                try {
+                    let data = await this.knex('daily_attendance').where('id', `${id}`).update({ out_time, day_working_hour, status });
+                    res.json(data);
+                } catch (error) {
+                    return res.status(404).json("Invalide to punch-out:", error);
                 }
-                res.redirect("/employee_login");
-            });
-        });
+            } else {
+                res.status(404).json("No id to punch out");
+            }
+        })
+
+        router.get("/personal_info/:id", async (req, res) => {
+            let id = req.params.id;
+            try {
+                let data = await this.knex('personal_information').join('employee', 'employee.id', 'personal_information.employee_id').select('*').where('personal_information.employee_id', `${id}`);
+                res.json(data);
+            } catch (error) {
+                res.status(404).json("Invalide to show one:", error);
+            }
+        })
+
+        router.get("/estatement/:id", async (req, res) => {
+            let id = req.params.id;
+            try {
+                let data = await this.knex('salary').select('employee_id', this.knex.raw('SUM(daily_salary)')).where('employee_id', `${id}`).groupBy('employee_id');
+                res.json(data);
+            } catch (error) {
+                res.status(404).json("Invalide to get e-statement:", error);
+            }
+        })
 
         return router;
     }

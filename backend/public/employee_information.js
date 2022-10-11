@@ -1,7 +1,7 @@
 //Show salary summary//
 $.ajax({
     type: "GET",
-    url: `http://localhost:8000/employee/info/api`,
+    url: `http://localhost:8001/employee/info/api`,
     success: function (result) {
         //show employee information
         $("#aliasEmployee").append(result.alias);
@@ -26,7 +26,7 @@ $.ajax({
 //update employee information
 // $.ajax({
 //     type: "PUT",
-//     url: `http://localhost:8000/employee/info/update`,
+//     url: `http://localhost:8001/employee/info/update`,
 //     success: function () {
 //         //update form value
 //     }

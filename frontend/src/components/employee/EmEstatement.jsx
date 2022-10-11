@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Estatement() {
+export default function EmEstatement() {
     return (
         <div>Estatement</div>
     )

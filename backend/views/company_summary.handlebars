@@ -1,10 +1,22 @@
-{{!-- navbar --}}
-<nav class="navbar navbar-expand-lg bg-light d-flex justify-content-center align-items-center">
+{{! navbar }}
+<nav
+  class="navbar navbar-expand-lg bg-light d-flex justify-content-center align-items-center"
+>
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="../images/navLogoCom.png" alt=""
-        style="max-height: 150px; max-width: 150px;"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="#"><img
+        src="../images/navLogoCom.png"
+        alt=""
+        style="max-height: 150px; max-width: 150px;"
+      /></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -23,7 +35,7 @@
   </div>
 </nav>
 
-{{!-- <!--Search bar-->
+{{! <!--Search bar-->
 <nav class="navbar bg-light d-flex justify-content-center align-items-center fixed-top">
     <div class="container-fluid">
         <form class="d-flex" role="search">
@@ -32,31 +44,46 @@
         </form>
     </div>
 </nav>
-<br> --}}
+<br> }}
 
 <!--Each employee information-->
 <div id="companySummary">
-    <br>
-    <br>
+  <br />
+  <br />
 
-    {{#each employee}}
-    <div class='row d-flex justify-content-center align-items-center employee-item'> <br><br><br><br><br><br><br><br><br><br>
-        <img class="col-12" src="../images/company_employeeSum.jpg" style="max-width:150px; border-radius: 50%;">
-        <h1 class="text-center" id={{@index}} data-id="{{@index}}">  {{alias}}  #<span id="valueId{{employee_id}}">{{employee_id}}</span></h1>
-        <div class='d-flex justify-content-center align-items-center'>
-            <div onclick="myFunction()" class='row'>
-                <div class="column col-6">
-                    <a id="calendarEmployeeId{{employee_id}}" href="http://localhost:8000/biz/worker/{{employee_id}}/calendar"> <i
-                            class="fa-solid fa-calendar-days fa-xl"></i></a>
-                </div>
-                <div class="column col-6">
-                    <a id="" href=" http://localhost:8000/biz/worker/{{employee_id}}/info"> <i
-                            class="fa-solid fa-user-pen fa-xl"></i></a>
-                </div>
-            </div>
-        </div> <br> <br>
+  {{#each employee}}
+    <div
+      class="row d-flex justify-content-center align-items-center employee-item"
+    >
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <img
+        class="col-12"
+        src="../images/company_employeeSum.jpg"
+        style="max-width:150px; border-radius: 50%;"
+      />
+      <h1 class="text-center" id={{@index}} data-id="{{@index}}">
+        {{alias}}
+        #<span id="valueId{{employee_id}}">{{employee_id}}</span></h1>
+      <div class="d-flex justify-content-center align-items-center">
+        <div onclick="myFunction()" class="row">
+          <div class="column col-6">
+            <a
+              id="calendarEmployeeId{{employee_id}}"
+              href="http://localhost:8001/biz/worker/{{employee_id}}/calendar"
+            > <i class="fa-solid fa-calendar-days fa-xl"></i></a>
+          </div>
+          <div class="column col-6">
+            <a
+              id=""
+              href=" http://localhost:8001/biz/worker/{{employee_id}}/info"
+            > <i class="fa-solid fa-user-pen fa-xl"></i></a>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
     </div>
-    {{/each}}
+  {{/each}}
 </div>
 
-<script type='text/javascript' src="../company_summary.js"></script>
+<script type="text/javascript" src="../company_summary.js"></script>

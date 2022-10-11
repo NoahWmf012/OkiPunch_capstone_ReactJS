@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+var QrCode = require('qrcode-reader');
 class comAuthRouter {
     constructor(express, passport, bcrypt, knex) {
         this.express = express;
@@ -50,26 +51,38 @@ class comAuthRouter {
             }
         });
 
-        // redis qrcode reader
-        // knex add record
+        router.get("/punch/:employee_id", async (req, res) => {
+            //table: daily_attendance
+            let employee_id = req.params.employee_id;
+            try {
+                let data = await this.knex('daily_attendance').where({ employee_id });
+                res.json(data);
+            } catch (error) {
+                res.json("Invalide to get punch record: ", error);
+            }
+        })
+
         router.post("/punchin", async (req, res) => {
             //table: daily_attendance
-            let { employee_id, in_time } = req.body;
-            let data = await this.knex('daily_attendance').insert({ employee_id, in_time }).returning("id");
+            let { employee_id, in_time, date } = req.body;
+            let data = await this.knex('daily_attendance').insert({ employee_id, in_time, date }).returning("id");
             res.json(data);
         })
 
-        //knex add record
-        router.put("/punchout", async (req, res) => {
+        router.put("/punchedit", async (req, res) => {
             //table: daily_attendance, salary
-            let { id, out_time, day_working_hour, status } = req.body;
+            let { id, in_time, out_time, day_working_hour, status } = req.body;
             //status Enum('ON_TIME', 'LATE', 'ABSENT', 'EARLY GOING', 'HALF DAY')
-            try {
-                let data = await this.knex('daily_attendance').where('id', `${id}`).update({ out_time, day_working_hour, status });
-                res.json(data);
-            } catch (error) {
-                console.log(error);
-                return res.status(404).json(error);
+            let data = await this.knex('daily_attendance').where({ id }).first();
+            if (data) {
+                try {
+                    let data = await this.knex('daily_attendance').where('id', `${id}`).update({ in_time, out_time, day_working_hour, status });
+                    res.json(data);
+                } catch (error) {
+                    res.status(404).json("No record:", error);
+                }
+            } else {
+                res.status(404).json("Invalid to edit punch record:", error);
             }
         })
 
@@ -79,8 +92,8 @@ class comAuthRouter {
             try {
                 let data = await this.knex('employee').join('department', 'department.id', 'employee.department_id').select('employee.id', 'department.department_name', 'employee.title', 'employee.day_rate', 'employee.active_status', 'employee.start_date');
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to show all employees");
+            } catch (error) {
+                res.status(404).json("Invalide to show all employees:", error);
             }
 
         })
@@ -93,8 +106,8 @@ class comAuthRouter {
             try {
                 let data = await this.knex('personal_information').join('employee', 'employee.id', 'personal_information.employee_id').select('*').where('personal_information.employee_id', `${id}`);
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to show one");
+            } catch (error) {
+                res.status(404).json("Invalide to show one:", error);
             }
         })
 
@@ -121,8 +134,8 @@ class comAuthRouter {
                 await this.knex('employee').insert({ employee_id: id[0].id, title, department_id, day_rate, active_status: 'READY', start_date });
                 let data = await this.knex('personal_information').insert({ employee_id: id[0].id, fName, lName, alias, phone_number, address, gender, date_of_birth }).returning(['fName', 'lName']);//skip image
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to add new employee");
+            } catch (error) {
+                res.status(404).json("Invalide to add new employee:", error);
             }
         })
 
@@ -132,8 +145,8 @@ class comAuthRouter {
             try {
                 let data = await this.knex('announcement_board').join('department', 'announcement_board.department_id', 'department.id').select('*');
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to get announcement hostory")
+            } catch (error) {
+                res.status(404).json("Invalide to get announcement hostory:", error)
             }
         })
 
@@ -145,8 +158,8 @@ class comAuthRouter {
             try {
                 let data = await this.knex('announcement_board').update({ announcement }).where('id', `${id}`).returning('announcement');
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to update announcement hostory");
+            } catch (error) {
+                res.status(404).json("Invalide to update announcement hostory:", error);
             }
         })
 
@@ -157,8 +170,8 @@ class comAuthRouter {
             try {
                 let data = await this.knex('announcement_board').insert({ department_id, announcement }).returning("announcement");
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to post new announcement");
+            } catch (error) {
+                res.status(404).json("Invalide to post new announcement:", error);
             }
 
         })
@@ -170,8 +183,8 @@ class comAuthRouter {
             try {
                 let data = await this.knex('daily_attendance').join('salary', 'daily_attendance.employee_id', 'salary.employee_id').select('daily_attendance.employee_id', 'daily_attendance.in_time', 'daily_attendance.out_time', 'daily_attendance.status', 'salary.work_date').where('daily_attendance.employee_id', `${id}`);
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to get calendar");
+            } catch (error) {
+                res.status(404).json("Invalide to get calendar:", error);
             }
         })
 
@@ -182,8 +195,8 @@ class comAuthRouter {
             try {
                 let data = await this.knex('salary').select('employee_id', this.knex.raw('SUM(daily_salary)')).where('employee_id', `${id}`).groupBy('employee_id');
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to get e-statement");
+            } catch (error) {
+                res.status(404).json("Invalide to get e-statement:", error);
             }
 
         })
@@ -195,8 +208,8 @@ class comAuthRouter {
             try {
                 let data = await this.knex('employee').update({ active_status: "LAYOFF" }).where('id', `${id}`).returning(['id', 'active_status']);
                 res.json(data);
-            } catch {
-                res.status(404).json("Invalide to layoff");
+            } catch (error) {
+                res.status(404).json("Invalide to layoff:", error);
             }
         })
 

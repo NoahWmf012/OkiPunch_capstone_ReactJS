@@ -8,7 +8,6 @@ const bcrypt = require("bcrypt");
 const session = require('express-session');
 const comAuthRouter = require("./Router/adminRouter");
 const emAuthRouter = require("./Router/employeeRouter")
-// const PageRouter = require("./Router/pageRouter");
 const flash = require("express-flash");
 const createClient = require('redis');
 const jwt = require('jsonwebtoken');
@@ -20,7 +19,7 @@ const { engine } = require('express-handlebars');
 const knexConfig = require("./knexfile")["development"];
 const knex = require("knex")(knexConfig);
 
-const port = 8000;
+const port = 8001;
 
 //express middleware
 app.use(express.urlencoded({ extended: false }));

@@ -8,11 +8,11 @@ let summaryTemplate = Handlebars.compile(
     <div class='d-flex justify-content-center align-items-center'>
         <div class='row'>
             <div class="column col-6">
-                <a id="calendarEmployeeId{{employee_id}}" href="http://localhost:8000/biz/worker/{{employee_id}}/calendar"> <i
+                <a id="calendarEmployeeId{{employee_id}}" href="http://localhost:8001/biz/worker/{{employee_id}}/calendar"> <i
                         class="fa-solid fa-calendar-days fa-xl" style="color:#205072"></i></a>
             </div>
             <div class="column col-6">
-                <a id="" href=" http://localhost:8000/biz/worker/{{employee_id}}/info"> <i
+                <a id="" href=" http://localhost:8001/biz/worker/{{employee_id}}/info"> <i
                         class="fa-solid fa-user-pen fa-xl" style="color:#205072"></i></a>
             </div>
         </div>
@@ -25,7 +25,7 @@ let summaryTemplate = Handlebars.compile(
 
 $.ajax({
     type: "GET",
-    url: `http://localhost:8000/biz/showworkers/api`,
+    url: `http://localhost:8001/biz/showworkers/api`,
     success: function (result) {
         console.log(result);
         $("#companySummary").html(summaryTemplate({

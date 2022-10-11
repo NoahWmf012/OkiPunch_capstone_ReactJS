@@ -127,7 +127,7 @@
 
     $.ajax({
         type: "GET",
-        url: `http://localhost:8000/biz/worker/${id}/calendar/api`,
+        url: `http://localhost:8001/biz/worker/${id}/calendar/api`,
         async: true,
         success: function (result) {
 
@@ -185,7 +185,7 @@
 
     $(document).ready(function () {
         $("#formPostCal").attr("action", `/biz/worker/${id}/calendar/update`);
-        $("#submitBtn").attr("href", `http://localhost:8000/biz/worker/${id}/calendar`);
+        $("#submitBtn").attr("href", `http://localhost:8001/biz/worker/${id}/calendar`);
     })
 </script>
 

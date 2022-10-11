@@ -73,7 +73,7 @@ week_date = getWeeksInMonth(today.getMonth(), today.getFullYear())[2];
 $(document).ready(function () {
     $.ajax({
         type: "GET",
-        url: `http://localhost:8000/employee/calendar/api`,
+        url: `http://localhost:8001/employee/calendar/api`,
         async: true,
         success: function (result) {
             console.log(result);

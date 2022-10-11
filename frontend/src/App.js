@@ -34,12 +34,12 @@ function App() {
         <Route path='/admin' element={<AdminSecret />} >
           <Route path='addnew' element={<AddNew />} />
           <Route path='announcement' element={<Announcement />} />
-          <Route path='calendar/:id' element={<Calendar />} />
-          <Route path='estatement/:id' element={<EStatement />} />
-          <Route path='layoff/:id' element={<Layoff />} />
+          <Route path='calendar' element={<Calendar />} />
+          <Route path='estatement' element={<EStatement />} />
+          <Route path='layoff' element={<Layoff />} />
           <Route path='qrreader' element={<QRReader />} />
           <Route path='showallemployee' element={<ShowAllList />} />
-          <Route path='showoneinfo/:id' element={<ShowOneInfo />} />
+          <Route path='showoneinfo' element={<ShowOneInfo />} />
         </Route>
         <Route path='employee' element={<EmployeeSecret />}>
           <Route path='calendar' element={<EmCalendar />} />

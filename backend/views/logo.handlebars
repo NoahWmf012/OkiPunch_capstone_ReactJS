@@ -1,71 +1,76 @@
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
 </head>
 
-
-
-{{!-- logo animate --}}
+{{! logo animate }}
 <div class="position-absolute top-50 start-50 translate-middle">
 
-    <div class="container container-fluid col d-flex justify-content-center align-items-center">
-        <img src="../images/logoPic.png" class="animate__animated animate__backInDown" alt="logoPic"
-            style="max-height: 180px; max-width: 180px;">
+  <div
+    class="container container-fluid col d-flex justify-content-center align-items-center"
+  >
+    <img
+      src="../images/logoPic.png"
+      class="animate__animated animate__backInDown"
+      alt="logoPic"
+      style="max-height: 180px; max-width: 180px;"
+    />
+  </div>
+
+  <div
+    class="container container-fluid col d-flex justify-content-center align-items-center"
+  >
+    <img
+      src="../images/logoText.png"
+      class="animate__animated animate__backInUp"
+      alt="logoText"
+      style="max-height: 350px; max-width: 350px;"
+    />
+  </div>
+
+  {{! spinners }}
+  <div id="spinners" class="text-center" style="visibility: hidden;">
+    <div
+      class="spinner-grow"
+      style="background-color:rgb(243, 238, 234)"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
     </div>
-
-    <div class="container container-fluid col d-flex justify-content-center align-items-center">
-        <img src="../images/logoText.png" class="animate__animated animate__backInUp" alt="logoText"
-            style="max-height: 350px; max-width: 350px;">
+    <div class="spinner-grow" role="status" style="background:#d1bda9">
+      <span class="visually-hidden">Loading...</span>
     </div>
-
-
-
-    {{!-- spinners --}}
-    <div id="spinners" class="text-center" style="visibility: hidden;">
-        <div class="spinner-grow" style="background-color:rgb(243, 238, 234)" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" role="status" style="background:#d1bda9">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" role="status" style="background-color:#bfab96">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" role="status" style="background-color:#a07a56">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" role="status" style="background-color:#7c5a3b">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" role="status" style="background-color:#593d24">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" role="status" style="background-color:#362312">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" role="status" style="background-color:#130b05">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+    <div class="spinner-grow" role="status" style="background-color:#bfab96">
+      <span class="visually-hidden">Loading...</span>
     </div>
+    <div class="spinner-grow" role="status" style="background-color:#a07a56">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-grow" role="status" style="background-color:#7c5a3b">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-grow" role="status" style="background-color:#593d24">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-grow" role="status" style="background-color:#362312">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-grow" role="status" style="background-color:#130b05">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 </div>
 
-
-
-{{!-- bg color --}}
+{{! bg color }}
 <style>
-    body {
-        background-color: rgb(231, 226, 220);
-    }
+  body { background-color: rgb(231, 226, 220); }
 </style>
 
-
-
-{{!-- show spinner & redirect --}}
+{{! show spinner & redirect }}
 <script>
-    setTimeout(function () {
-        window.location.href = 'http://localhost:8000';
-    }, 5000);
-
-    setTimeout(function () {
-        $("#spinners").css("visibility", "visible")
-    }, 1000);
+  setTimeout(function () { window.location.href = 'http://localhost:8001'; },
+  5000); setTimeout(function () { $("#spinners").css("visibility", "visible") },
+  1000);
 </script>

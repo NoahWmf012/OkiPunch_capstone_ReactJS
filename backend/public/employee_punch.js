@@ -1,7 +1,7 @@
 //Show salary summary//
 $.ajax({
     type: "GET",
-    url: `http://localhost:8000/employee/salary`,
+    url: `http://localhost:8001/employee/salary`,
     success: function (result) {
         console.log(result);
         $("#employee_punch_workingHours").append(result.month_working_hour);
@@ -15,7 +15,7 @@ $.ajax({
 let employeePunchIn = function () {
     $.ajax({
         type: "GET",
-        url: `http://localhost:8000/employee/punchin`,
+        url: `http://localhost:8001/employee/punchin`,
         success: function (result) {
             console.log(result)
             $("#punchInOTPW").append(" " + result);
@@ -37,7 +37,7 @@ $(document).ready(function () {
 let employeePunchOut = function () {
     $.ajax({
         type: "GET",
-        url: `http://localhost:8000/employee/punchout`,
+        url: `http://localhost:8001/employee/punchout`,
         success: function (result) {
             return true;
         }
