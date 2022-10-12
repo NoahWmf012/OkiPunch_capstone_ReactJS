@@ -19,7 +19,10 @@ export default function EmployeeLogin() {
 
     return (
         <div className="employee-login">
-            <div className="card">
+            <form className="card" onSubmit={(e) => {
+                e.preventDefault();
+                dispatch(employeeLoginThunk(username, password))
+            }} >
                 <h2>Employee Login</h2>
                 <label className="input">
                     <input className="input__field" type="text" placeholder=" " onChange={(e) => setUsername(e.currentTarget.value)} />
@@ -31,9 +34,10 @@ export default function EmployeeLogin() {
                     <span className="input__label">Password</span>
                 </label>
                 <div className="button-group">
-                    <button onClick={() => dispatch(employeeLoginThunk(username, password))}>Send</button>
+                    <button>Send</button>
                 </div>
-            </div>
+            </form>
+            <button>Home</button>
         </div>
     )
 }

@@ -12,7 +12,7 @@ exports.up = function (knex) {
         table.string("title");
         table.integer("day_rate");
         table.enu("active_status", ['READY', 'WORKING', 'SUSPENSION', 'LAYOFF']);
-        table.time("start_date");
+        table.date("start_date");
         // table.timestamp('start_date').defaultTo(knex.fn.now());
     })
 };

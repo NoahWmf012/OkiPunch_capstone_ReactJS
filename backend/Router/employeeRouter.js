@@ -121,20 +121,27 @@ class emAuthRouter {
             }
         })
 
-        router.get("/personal_info/:id", async (req, res) => {
-            let id = req.params.id;
+        router.get("/personal_info/:employee_id", async (req, res) => {
+            let employee_id = req.params.employee_id;
             try {
-                let data = await this.knex('personal_information').join('employee', 'employee.id', 'personal_information.employee_id').select('*').where('personal_information.employee_id', `${id}`);
+                let data = await this.knex('personal_information').join('employee', 'employee.employee_id', 'personal_information.employee_id')
+                    .select('*').where('personal_information.employee_id', `${employee_id}`).first();
                 res.json(data);
             } catch (error) {
                 res.status(404).json("Invalide to show one:", error);
             }
         })
 
-        router.get("/estatement/:id", async (req, res) => {
-            let id = req.params.id;
+        router.get("/estatement/:employee_id", async (req, res) => {
+            let employee_id = req.params.employee_id;
             try {
-                let data = await this.knex('salary').select('employee_id', this.knex.raw('SUM(daily_salary)')).where('employee_id', `${id}`).groupBy('employee_id');
+                let data = await this.knex('salary').select('employee_id', 'day_rate',
+                    this.knex.raw("count(work_status) FILTER(WHERE work_status = 'FULL_DAY') as full_day"),
+                    this.knex.raw("count(work_status) FILTER(WHERE work_status = 'HALF_DAY') as half_day"),
+                    this.knex.raw('SUM(daily_salary) as total_salary'))
+                    // .where('employee_id', `${employee_id}`, 'work_status', 'FULL_DAY')
+                    .where({ employee_id })
+                    .groupBy('employee_id', 'day_rate');
                 res.json(data);
             } catch (error) {
                 res.status(404).json("Invalide to get e-statement:", error);

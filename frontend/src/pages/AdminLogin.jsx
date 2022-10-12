@@ -29,7 +29,11 @@ export default function AdminLogin() {
     // </div>
 
     return (
-        <div className="card card--inverted">
+        <form className="card card--inverted" onSubmit={(e) => {
+            e.preventDefault();
+            dispatch(adminLoginThunk(username, password))
+        }
+        }>
             <h2>Admin Login</h2>
             <label className="input">
                 <input className="input__field" type="text" placeholder=" " onChange={(e) => setUsername(e.currentTarget.value)} />
@@ -44,6 +48,6 @@ export default function AdminLogin() {
             <div className="button-group">
                 <button onClick={() => dispatch(adminLoginThunk(username, password))}>Login</button>
             </div>
-        </div>
+        </form >
     )
 }

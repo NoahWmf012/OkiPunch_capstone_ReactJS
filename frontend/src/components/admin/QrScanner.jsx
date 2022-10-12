@@ -37,8 +37,6 @@ export default function QrScanner() {
                     onScan={handleScanWebCam}
                 />
             </Grid>
-
-
         </div>
     )
 }

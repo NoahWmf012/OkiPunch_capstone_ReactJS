@@ -1,13 +1,13 @@
 import React from "react";
-// import "./SideBar.css";
+// import "./EmSideBar.css";
 import SideBarOption from "./SideBarOption.jsx";
 import LinkIcon from "@material-ui/icons/Link";
 import HomeIcon from "@material-ui/icons/Home"
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector } from "react-redux";
 
 export default function EmSideBar() {
-    const id = useSelector((state) => state.authStore.id)
+    // const id = useSelector((state) => state.authStore.id)
     return (
         <div className="sidebar" >
             <Link to={"/employee/punch"}>
