@@ -20,7 +20,7 @@ export default function EmployeeSecret() {
         <div className='employee-secret'>
             <SideBar />
             <button onClick={() => dispatch(logoutThunk())}>Logout</button>
-            compoenets for employee
+            <br />
             <Outlet />
         </div>
     )

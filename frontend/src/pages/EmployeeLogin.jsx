@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { employeeLoginThunk } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 import "./EmployeeLogin.scss";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EmployeeLogin() {
     const [username, setUsername] = useState("Insert Username");
@@ -11,6 +13,16 @@ export default function EmployeeLogin() {
     const role = useSelector((state) => state.authStore.role);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const notify = () => toast.error('Incorrect Username or Password', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+    });
     useEffect(() => {
         if (auth) {
             navigate(`/${role}`);
@@ -21,7 +33,9 @@ export default function EmployeeLogin() {
         <div className="employee-login">
             <form className="card" onSubmit={(e) => {
                 e.preventDefault();
-                dispatch(employeeLoginThunk(username, password))
+                dispatch(employeeLoginThunk(username, password)).then(() => {
+                    if (!auth) notify();
+                })
             }} >
                 <h2>Employee Login</h2>
                 <label className="input">
@@ -37,7 +51,22 @@ export default function EmployeeLogin() {
                     <button>Send</button>
                 </div>
             </form>
-            <button>Home</button>
+            <div className="button-group">
+                <button onClick={() => { navigate(`/`) }}>Home</button>
+            </div>
+
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </div>
     )
 }

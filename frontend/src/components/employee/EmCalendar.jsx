@@ -12,7 +12,7 @@ export default function EmCalendar() {
         dispatch(employeeGetCalendarRecordThunk(id)).then((res) => {
             setEventList(prev => [...prev, ...res])
         });
-    }, []);
+    }, [dispatch, id]);
 
     return (
         <div>

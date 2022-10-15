@@ -29,7 +29,7 @@ export default function Home() {
                 <div className="card card--inverted">
                     <h3>Admin Login</h3>
                     <div className="button-group">
-                        <a href="/admin_login"><button>Login1</button></a>
+                        <a href="/admin_login"><button>Login</button></a>
                     </div>
                 </div>
             </section>

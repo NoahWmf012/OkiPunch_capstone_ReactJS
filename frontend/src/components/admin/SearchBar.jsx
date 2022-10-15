@@ -7,7 +7,7 @@ export default function SearchBar(props) {
     return (
         <div className="search-bar">
             <SearchIcon />
-            <input type="text" placeholder="Search the key word" onChange={(e) => {
+            <input type="text" placeholder="Search department name or title" onChange={(e) => {
                 props.getData(e.target.value);
             }} />
         </div>

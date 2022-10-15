@@ -104,14 +104,39 @@ class emAuthRouter {
             }
         })
 
+        //for getting day_rate
+        router.get("/day_rate/:employee_id", async (req, res) => {
+            //table: daily_attendance
+            let employee_id = req.params.employee_id;
+            try {
+                let data = await this.knex('employee').where({ employee_id }).select('day_rate').first();
+                res.json(data);
+            } catch (error) {
+                res.json("Invalide to get day_rate record: ", error);
+            }
+        })
+        //for adding new salay data
+        router.post("/day_rate", async (req, res) => {
+            //table: daily_attendance
+            // let employee_id = req.params.employee_id;
+            let { employee_id, day_rate, work_status, work_date, daily_salary } = req.body;
+            console.log("day_rate, work_status, work_date, daily_salary:", day_rate, work_status, work_date, daily_salary)
+            try {
+                let data = await this.knex('salary').insert({ employee_id, day_rate, work_status, work_date, daily_salary }).returning('id');
+                res.json(data);
+            } catch (error) {
+                res.json("Invalide to add salary record: ", error);
+            }
+        })
+
         router.put("/punchout", async (req, res) => {
             //table: daily_attendance, salary
             let { id, out_time, day_working_hour, status } = req.body;
-            //status Enum('ON_TIME', 'LATE', 'ABSENT', 'EARLY GOING', 'HALF DAY')
             let data = await this.knex('daily_attendance').where({ id }).first();
+            console.log("id, out_time, day_working_hour, status :", id, out_time, day_working_hour, status)
             if (data) {
                 try {
-                    let data = await this.knex('daily_attendance').where('id', `${id}`).update({ out_time, day_working_hour, status });
+                    let data = await this.knex('daily_attendance').where({ id }).update({ out_time, day_working_hour, status });
                     res.json(data);
                 } catch (error) {
                     return res.status(404).json("Invalide to punch-out:", error);
@@ -141,7 +166,7 @@ class emAuthRouter {
                     this.knex.raw('SUM(daily_salary) as total_salary'))
                     // .where('employee_id', `${employee_id}`, 'work_status', 'FULL_DAY')
                     .where({ employee_id })
-                    .groupBy('employee_id', 'day_rate');
+                    .groupBy('employee_id', 'day_rate').first();
                 res.json(data);
             } catch (error) {
                 res.status(404).json("Invalide to get e-statement:", error);

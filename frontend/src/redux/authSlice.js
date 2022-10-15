@@ -43,16 +43,53 @@ export const adminLoginThunk = (username, password) => async dispatch => {
                 console.log('Login failed');
             }
             else {
-                console.log("response.data:", response.data.token)
+                console.log("response.data.token:", response.data.token)
                 await localStorage.setItem('TOKEN', response.data.token);
                 await dispatch(login("admin"));
                 await dispatch(setEmployeeID(decode().id));
             }
+        }).catch(err => {
+            console.log("error", err);
         })
+
+}
+
+export const adminShowAllListThunk = () => async dispatch => {
+    var res = await axios.get(`${process.env.REACT_APP_API_SERVER}/admin/showallworkers`);
+    return res.data;
+}
+
+export const adminOneInfoThunk = (employee_id) => async dispatch => {
+    var res = await axios.get(`${process.env.REACT_APP_API_SERVER}/admin/showone/${employee_id}`);
+    console.log("adminOneInfoThunk:", res.data);
+    return res.data;
+}
+
+export const adminOneCalendarThunk = (employee_id) => async dispatch => {
+    var res = await axios.get(`${process.env.REACT_APP_API_SERVER}/admin/calendar/${employee_id}`);
+    console.log("adminOneCalendarThunk:", res.data);
+    return res.data;
+}
+
+export const adminAnnouncementHisThunk = () => async dispatch => {
+    var res = await axios.get(`${process.env.REACT_APP_API_SERVER}/admin/announcement`);
+    return res.data;
+}
+
+export const adminNewAncmThunk = (announcement, department_id) => async dispatch => {
+    var res = await axios.post(`${process.env.REACT_APP_API_SERVER}/admin/announcement`, { announcement, department_id });
+    console.log("adminNewAncmThunk:", res.data);
+    // return res.data;
+}
+
+export const adminNewEmployeeThunk = (username, email, password, department_id, title, day_rate, start_date, fName, lName, alias, phone_number, address, gender, date_of_birth) => async dispatch => {
+    //{"username", "email", "password", "department_id", "title", "day_rate", "start_date", "fName", "lName", "alias", "phone_number", "address", "gender", "date_of_birth"}
+    var res = await axios.post(`${process.env.REACT_APP_API_SERVER}/admin/addnewemployee`, {});
+    console.log("adminNewAncmThunk:", res.data);
+    // return res.data;
 }
 
 export const adminScanerThunk = (employee_id, in_time, date) => async dispatch => {
-    //check if punch-in today yet
     axios.post(`${process.env.REACT_APP_API_SERVER}/admin/punchin`,
         { employee_id, in_time, date }).then(response => {
             if (response.data === null) {
@@ -60,35 +97,65 @@ export const adminScanerThunk = (employee_id, in_time, date) => async dispatch =
             }
             else {
                 console.log("response.data:", response.data)
-                //notification: punch-in successed
             }
         })
 }
 
+export const adminDelCalendarRecordThunk = (id) => async dispatch => {
+    await axios.delete(`${process.env.REACT_APP_API_SERVER}/admin/calendar/${id}`).then(response => {
+        if (response.data === null) {
+            console.log('No Calendar Record');
+        }
+        else {
+            console.log("response.data:", response.data);
+        }
+    })
+}
+
+export const adminAddCalendarRecordThunk = (employee_id, date, status) => async dispatch => {
+    //employee_id | in_time  | out_time | day_working_hour |    date    |   status
+    var out_time = status === "FULL_DAY" ? "18:00:00" : "13:00:00";
+    var day_working_hour = status === "FULL_DAY" ? "09:00:00" : "04:00:00";
+    await axios.post(`${process.env.REACT_APP_API_SERVER}/admin/calendar`,
+        { employee_id, in_time: "09:00:00", out_time, day_working_hour, date, status })
+        .then(response => {
+            if (response.data === null) {
+                console.log('No Calendar Record');
+            }
+            else {
+                console.log("response.data:", response.data);
+            }
+        })
+}
+
+export const adminPWThunk = (user_id, password) => async dispatch => {
+    var res = await axios.post(`${process.env.REACT_APP_API_SERVER}/admin/checkpw`, { id: user_id, password });
+    return res.data;
+}
+
 export const employeeLoginThunk = (username, password) => async dispatch => {
     axios.post(`${process.env.REACT_APP_API_SERVER}/employee/login`,
-        { username, password }).then(response => {
+        { username, password }).then(async response => {
             if (response.data === null) {
                 console.log('Login failed');
             }
             else {
-                console.log("response.data:", response.data.token)
                 localStorage.setItem('TOKEN', response.data.token);
-                dispatch(login("employee"));
+                await dispatch(login("employee"));
+                await dispatch(setEmployeeID(decode().id));
             }
         })
 }
 
 export const employeePunchOutThunk = (employee_id, out_time) => async dispatch => {
+    //handle 'daily_attendance' table
     var employee_data = await axios.get(`${process.env.REACT_APP_API_SERVER}/employee/punch/${employee_id}`);
     var in_time = employee_data.data.in_time;
 
-    var status = "";
+    var status = "FULL_DAY";
 
     //calculating the day_working_hour and status
     function diff(start, end) {
-        console.log("start:", start);
-        console.log("end:", end)
         start = start.split(":");
         end = end.split(":");
         var startDate = new Date(0, 0, 0, start[0], start[1], start[2]);
@@ -105,11 +172,11 @@ export const employeePunchOutThunk = (employee_id, out_time) => async dispatch =
             hours = hours + 24;
         }
 
-        //assume that the lunch hour is 12pm - 2pm
-        if (start[0] > "12" || end[0] < "2") {
-            status = "HALF DAY";
-        } else if (start[0] <= "9" && end[0] >= "5") {
-            status = "ON_TIME";
+        //assume that the full-day working hour is 9 hours
+        if (hours < 4.5) {
+            status = "HALF_DAY";
+        } else if (hours >= 4.5) {
+            status = "FULL_DAY";
         } else {
             status = "ABSENT";
         }
@@ -118,8 +185,7 @@ export const employeePunchOutThunk = (employee_id, out_time) => async dispatch =
     }
 
     var id = employee_data.data.id;
-
-    axios.put(`${process.env.REACT_APP_API_SERVER}/employee/punchout`,
+    await axios.put(`${process.env.REACT_APP_API_SERVER}/employee/punchout`,
         { id, out_time, day_working_hour: diff(in_time, out_time), status }).then(response => {
             if (response.data === null) {
                 console.log('Login failed');
@@ -129,22 +195,24 @@ export const employeePunchOutThunk = (employee_id, out_time) => async dispatch =
                 //notification: punch-out successed
             }
         })
+
+    //handle 'salary' table
+    var salary = await axios.get(`${process.env.REACT_APP_API_SERVER}/employee/day_rate/${employee_id}`);
+    var daily_salary = 0;
+    if (status === "HALF_DAY") {
+        daily_salary = salary.data.day_rate * 0.5
+    } else { daily_salary = salary.data.day_rate; }
+
+    const getCurrentDate = () => {
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        return date;
+    }
+    await axios.post(`${process.env.REACT_APP_API_SERVER}/employee/day_rate`, { employee_id, day_rate: salary.data.day_rate, work_status: status, work_date: getCurrentDate(), daily_salary });
 }
 
 export const employeeGetCalendarRecordThunk = (id) => async dispatch => {
-    var eventList = [
-        {
-            name: "On Time",
-            date: Date.now(),
-            allDay: true,
-        },
-        {
-            name: "Late",
-            date: new Date("Tue Oct 10 2022 17:00:18 GMT+0800 (Hong Kong Standard Time)"),
-            allDay: true,
-        },
-
-    ];
+    var eventList = [];
     await axios.get(`${process.env.REACT_APP_API_SERVER}/employee/calendar/${id}`).then(response => {
         if (response.data === null) {
             console.log('No Calendar Record');
@@ -152,7 +220,6 @@ export const employeeGetCalendarRecordThunk = (id) => async dispatch => {
         else {
             console.log("response.data:", response.data);
             response.data.map(e => {
-                console.log("e.date:", e.date)
                 return eventList.push({ name: e.status, date: `${e.date}`, allDay: true })
             })
         }
@@ -161,8 +228,12 @@ export const employeeGetCalendarRecordThunk = (id) => async dispatch => {
 }
 
 export const employeeGetInfoThunk = (employee_id) => async dispatch => {
-
     var data = await axios.get(`${process.env.REACT_APP_API_SERVER}/employee/personal_info/${employee_id}`)
+    return data;
+}
+
+export const employeeGetEstatementThunk = (employee_id) => async dispatch => {
+    var data = await axios.get(`${process.env.REACT_APP_API_SERVER}/employee/estatement/${employee_id}`)
     return data;
 }
 

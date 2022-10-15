@@ -6,7 +6,8 @@ import { employeePunchOutThunk } from '../../redux/authSlice'
 export default function EmPunch() {
     const dispatch = useDispatch();
 
-    const id = useSelector((state) => state.authStore.id)
+    const id = useSelector((state) => state.authStore.id);
+    console.log("id:", id)
 
     const getCurrentTime = () => {
         var today = new Date();

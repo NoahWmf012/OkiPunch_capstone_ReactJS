@@ -51,6 +51,32 @@ class comAuthRouter {
             }
         });
 
+        router.post("/checkpw", async (req, res) => {
+            //handle email and password login
+            const { id, password } = req.body;
+            console.log("id, password:", id, password);
+            let user = await this.knex("users").where({ id }).first();
+            console.log(user)
+            if (user) {
+                //check role first
+                if (user.role != 'admin') {
+                    res.json(false);
+                    return;
+                }
+                //check password
+                this.bcrypt.compare(password, user.password, function (err, result) {
+                    if (result) {
+
+                        res.json(true);
+                    } else {
+                        res.json(false);
+                    }
+                });
+            } else {
+                res.json(false);
+            }
+        });
+
         router.get("/punch/:employee_id", async (req, res) => {
             //table: daily_attendance
             let employee_id = req.params.employee_id;
@@ -90,7 +116,7 @@ class comAuthRouter {
         router.get("/showallworkers", async (req, res) => {
             //table: employee
             try {
-                let data = await this.knex('employee').join('department', 'department.id', 'employee.department_id').select('employee.id', 'department.department_name', 'employee.title', 'employee.day_rate', 'employee.active_status', 'employee.start_date');
+                let data = await this.knex('employee').join('department', 'department.id', 'employee.department_id').select('employee.employee_id', 'department.department_name', 'employee.title', 'employee.day_rate', 'employee.active_status', 'employee.start_date');
                 res.json(data);
             } catch (error) {
                 res.status(404).json("Invalide to show all employees:", error);
@@ -99,12 +125,12 @@ class comAuthRouter {
         })
 
         //knex get all employees
-        router.get("/showone/:id", async (req, res) => {
+        router.get("/showone/:employee_id", async (req, res) => {
             //table: personal_information
             //display btn Link to calendar
-            let id = req.params.id;
+            let employee_id = req.params.employee_id;
             try {
-                let data = await this.knex('personal_information').join('employee', 'employee.id', 'personal_information.employee_id').select('*').where('personal_information.employee_id', `${id}`);
+                let data = await this.knex('personal_information').join('employee', 'employee.employee_id', 'personal_information.employee_id').select('*').where('personal_information.employee_id', `${employee_id}`);
                 res.json(data);
             } catch (error) {
                 res.status(404).json("Invalide to show one:", error);
@@ -181,7 +207,7 @@ class comAuthRouter {
             //table: daily_attendance, salary
             let id = req.params.id;
             try {
-                let data = await this.knex('daily_attendance').join('salary', 'daily_attendance.employee_id', 'salary.employee_id').select('daily_attendance.employee_id', 'daily_attendance.in_time', 'daily_attendance.out_time', 'daily_attendance.status', 'salary.work_date').where('daily_attendance.employee_id', `${id}`);
+                let data = await this.knex('daily_attendance').join('salary', 'daily_attendance.employee_id', 'salary.employee_id').select('daily_attendance.employee_id', 'daily_attendance.in_time', 'daily_attendance.out_time', 'daily_attendance.status', 'daily_attendance.date').where('daily_attendance.employee_id', `${id}`);
                 res.json(data);
             } catch (error) {
                 res.status(404).json("Invalide to get calendar:", error);
