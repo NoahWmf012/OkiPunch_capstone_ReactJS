@@ -26,7 +26,7 @@ export default function Home() {
                 <br />
 
                 {/* admin  */}
-                <div className="card card--inverted">
+                <div className="card">
                     <h3>Admin Login</h3>
                     <div className="button-group">
                         <a href="/admin_login"><button>Login</button></a>

@@ -1,27 +1,38 @@
 import React from "react";
-import "./SideBar.css";
 import SideBarOption from "./SideBarOption.jsx";
-// import HomeIcon from "@material-ui/icons/Home"
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
 import CropFreeIcon from '@material-ui/icons/CropFree';
 import { Link } from "react-router-dom";
 
+//Nav bar
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import 'bootstrap/dist/css/bootstrap.css';
+
 export default function SideBar() {
     return (
-        <div className="sidebar" >
-            {/* <Link to={"/admin/addnew"}>
-                <SideBarOption Icon={HomeIcon} title="Add New Employee" />
-            </Link> */}
-            <Link to={"/admin/announcement"}>
-                <SideBarOption Icon={AssignmentLateIcon} title="Announcement" />
-            </Link>
-            <Link to={"/admin/showallemployee"}>
-                <SideBarOption Icon={AssignmentIndIcon} title="Employee List" />
-            </Link>
-            <Link to={"/admin/qrreader"}>
-                <SideBarOption Icon={CropFreeIcon} title="Punch-in" />
-            </Link>
+        <div>
+            <Navbar bg="dark" variant="dark">
+                <Container>
+                    {/* <Navbar.Brand href="/admin/addnew">
+                        <AssignmentLateIcon />
+                        Add New Employee
+                    </Navbar.Brand>
+                    <Navbar.Brand href="/admin/announcement">
+                        <AssignmentLateIcon />
+                        Announcement
+                    </Navbar.Brand> */}
+                    <Navbar.Brand href="/admin/showallemployee">
+                        <AssignmentIndIcon />
+                        Employee List
+                    </Navbar.Brand>
+                    <Navbar.Brand href="/admin/qrreader">
+                        <CropFreeIcon />
+                        Punch-in Scanner
+                    </Navbar.Brand>
+                </Container>
+            </Navbar>
         </div>
     )
 }

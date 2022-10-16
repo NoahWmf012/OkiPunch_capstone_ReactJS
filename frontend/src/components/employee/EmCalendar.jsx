@@ -17,7 +17,9 @@ export default function EmCalendar() {
     return (
         <div>
             <RevoCalendar
-                events={eventList} />
+                events={eventList}
+                sidebarWidth={100}
+                detailWidth={100} />
         </div>
     )
 }

@@ -22,6 +22,7 @@ export default function AdminSecret() {
     return (
         <div>
             <SideBar />
+            <br />
             <button onClick={() => dispatch(logoutThunk())}>Logout</button>
             <br />
             <Outlet />
