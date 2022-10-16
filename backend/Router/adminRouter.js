@@ -54,9 +54,7 @@ class comAuthRouter {
         router.post("/checkpw", async (req, res) => {
             //handle email and password login
             const { id, password } = req.body;
-            console.log("id, password:", id, password);
             let user = await this.knex("users").where({ id }).first();
-            console.log(user)
             if (user) {
                 //check role first
                 if (user.role != 'admin') {
@@ -207,7 +205,38 @@ class comAuthRouter {
             //table: daily_attendance, salary
             let id = req.params.id;
             try {
-                let data = await this.knex('daily_attendance').join('salary', 'daily_attendance.employee_id', 'salary.employee_id').select('daily_attendance.employee_id', 'daily_attendance.in_time', 'daily_attendance.out_time', 'daily_attendance.status', 'daily_attendance.date').where('daily_attendance.employee_id', `${id}`);
+                let data = await this.knex('daily_attendance').join('salary', 'daily_attendance.employee_id', 'salary.employee_id')
+                    .select('daily_attendance.employee_id', 'daily_attendance.in_time', 'daily_attendance.out_time', 'daily_attendance.status', 'daily_attendance.date')
+                    .where('daily_attendance.employee_id', `${id}`);
+                res.json(data);
+            } catch (error) {
+                res.status(404).json("Invalide to get calendar:", error);
+            }
+        })
+
+        router.post("/calendar", async (req, res) => {
+            //table: daily_attendance, salary
+            //employee_id | day_rate | work_status | work_date  | daily_salary
+            let { employee_id, in_time, out_time, day_working_hour, date, status } = req.body;
+            try {
+                let data = await this.knex('daily_attendance').insert({ employee_id, in_time, out_time, day_working_hour, date, status })
+                await this.knex('salary').where({ employee_id }).select('day_rate').first().then(async (res) => {
+                    var daily_salary = status == "HALF_DAY" ? res.day_rate * 0.5 : res.day_rate;
+                    await this.knex('salary').insert({ employee_id, day_rate: res.day_rate, work_status: status, work_date: date, daily_salary });
+                })
+                res.json(data);
+            } catch (error) {
+                res.status(404).json("Invalide to get calendar:", error);
+            }
+        })
+
+        router.delete("/calendar/:employee_id", async (req, res) => {
+            //table: daily_attendance, salary
+            let employee_id = req.params.employee_id;
+            let { work_date } = req.body;
+            try {
+                let data = await this.knex('daily_attendance').where({ employee_id, date: work_date }).del()
+                await this.knex('salary').where({ employee_id, work_date }).del();
                 res.json(data);
             } catch (error) {
                 res.status(404).json("Invalide to get calendar:", error);

@@ -39,7 +39,7 @@ export default function EmPunch() {
             <button onClick={() => genQRcode()}>Punch-in</button>
             <br />
             <img id='qrcode-image' src="" alt="" width="300" />
-
+            <br />
             <button onClick={() => dispatch(employeePunchOutThunk(id, getCurrentTime()))}>Punch-out</button>
         </div>
     )

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { employeeGetCalendarRecordThunk, adminPWThunk } from "../../redux/authSlice";
+import { employeeGetCalendarRecordThunk, adminPWThunk, adminAddCalendarRecordThunk, adminDelCalendarRecordThunk } from "../../redux/authSlice";
 import RevoCalendar from "revo-calendar";
 import { ToastContainer, toast } from 'react-toastify';
 import "./Modal.css";
@@ -12,7 +12,6 @@ export default function ShowOneCalendar() {
     const location = useLocation();
     const { employee_id } = location.state;
     const id = useSelector((state) => state.authStore.id);
-    console.log("eventList:", eventList);
 
     //for notification
     const notify = () => toast.error('Incorrect Username or Password', {
@@ -52,7 +51,7 @@ export default function ShowOneCalendar() {
     function deleteEvent(i) {
         toggleModal(1);
         setItem(i);
-        console.log("i:", i)
+        console.log("eventList[i]:", eventList[i].date)
     }
 
     function addEvent() {
@@ -77,9 +76,11 @@ export default function ShowOneCalendar() {
                             e.preventDefault();
                             dispatch(adminPWThunk(id, password)).then((res) => {
                                 if (res === true) {
-                                    var temp = eventList
-                                    temp.splice(item, 1)
-                                    setEventList(temp)
+                                    console.log("eventList, item:", eventList, item);
+                                    dispatch(adminDelCalendarRecordThunk(employee_id, eventList[item].date));
+                                    var temp = eventList;
+                                    temp.splice(item, 1);
+                                    setEventList(temp);
                                     toggleModal();
                                 } else {
                                     notify()
@@ -109,11 +110,13 @@ export default function ShowOneCalendar() {
                             dispatch(adminPWThunk(id, password)).then((res) => {
                                 if (res === true) {
                                     //add data
+
                                     var newEvent = {
                                         name: workStatus,
                                         date: new Date(date),
                                         allDay: true,
                                     };
+                                    dispatch(adminAddCalendarRecordThunk(employee_id, newEvent.date, newEvent.name));
                                     var temp = eventList;
                                     temp.push(newEvent);
                                     setEventList([...temp]);

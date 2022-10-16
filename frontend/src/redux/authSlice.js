@@ -101,8 +101,9 @@ export const adminScanerThunk = (employee_id, in_time, date) => async dispatch =
         })
 }
 
-export const adminDelCalendarRecordThunk = (id) => async dispatch => {
-    await axios.delete(`${process.env.REACT_APP_API_SERVER}/admin/calendar/${id}`).then(response => {
+export const adminDelCalendarRecordThunk = (employee_id, work_date) => async dispatch => {
+    console.log("employee_id, date:", employee_id, work_date);
+    await axios.delete(`${process.env.REACT_APP_API_SERVER}/admin/calendar/${employee_id}`, { data: { work_date } }).then(response => {
         if (response.data === null) {
             console.log('No Calendar Record');
         }
@@ -113,7 +114,6 @@ export const adminDelCalendarRecordThunk = (id) => async dispatch => {
 }
 
 export const adminAddCalendarRecordThunk = (employee_id, date, status) => async dispatch => {
-    //employee_id | in_time  | out_time | day_working_hour |    date    |   status
     var out_time = status === "FULL_DAY" ? "18:00:00" : "13:00:00";
     var day_working_hour = status === "FULL_DAY" ? "09:00:00" : "04:00:00";
     await axios.post(`${process.env.REACT_APP_API_SERVER}/admin/calendar`,
@@ -224,6 +224,7 @@ export const employeeGetCalendarRecordThunk = (id) => async dispatch => {
             })
         }
     })
+    console.log("eventList:", eventList)
     return eventList;
 }
 

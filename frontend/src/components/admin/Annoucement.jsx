@@ -15,7 +15,6 @@ export default function Annoucement() {
     }, [dispatch]);
 
     const handleSubmit = (e) => {
-        // e.preventDefault();
         const formData = new FormData(e.target);
         const data = formData.entries();
         for (const entry of data) console.log(entry);

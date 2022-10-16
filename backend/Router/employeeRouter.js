@@ -86,6 +86,8 @@ class emAuthRouter {
             let employee_id = req.params.employee_id;
             try {
                 let data = await this.knex('daily_attendance').where({ employee_id });
+                let _data = await this.knex('daily_attendance').where({ employee_id }).select('id', 'date')
+                console.log("_data:_data", _data)
                 res.json(data);
             } catch (error) {
                 res.json("Invalide to get punch record: ", error);
