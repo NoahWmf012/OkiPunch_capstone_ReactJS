@@ -89,9 +89,9 @@ export default function ShowOneCalendar() {
                         }
                         }>
                             <h2>Enter your admin password to confirm</h2>
-                            <label className="input">
-                                <input className="input__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
-                                <span className="input__label">Password</span>
+                            <label className="miniinput">
+                                <input className="miniinput__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
+                                <span className="miniinput__label">Password</span>
                             </label>
 
                             <button type='submit'>
@@ -128,18 +128,18 @@ export default function ShowOneCalendar() {
                         }
                         }>
                             <h2>Input Data and your admin password to confirm</h2>
-                            <label className="input">
+                            <label className="miniinput">
                                 <select value={workStatus} onChange={(e) => setWorkStatus(e.target.value)}>
                                     <option value="FULL_DAY">FULL DAY</option>
                                     <option value="HALF_DAY">HALF DAY</option>
                                 </select>
                             </label>
-                            <label className="input">
-                                <input className="input__field" type="date" placeholder=" " onChange={(e) => setDate(e.currentTarget.value)} />
+                            <label className="miniinput">
+                                <input className="miniinput__field" type="date" placeholder=" " onChange={(e) => setDate(e.currentTarget.value)} />
                             </label>
-                            <label className="input">
-                                <input className="input__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
-                                <span className="input__label">Password</span>
+                            <label className="miniinput">
+                                <input className="miniinput__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
+                                <span className="miniinput__label">Password</span>
                             </label>
 
                             <button type='submit'>

@@ -38,33 +38,33 @@ export default function Annoucement() {
                     })}</div>
                 )
             })}
-            <form className="card card--inverted" onSubmit={(e) => {
+            <form className="minicard minicard--inverted" onSubmit={(e) => {
                 e.preventDefault();
                 // dispatch(adminNewAncmThunk(announcement, department_id))
                 handleSubmit(e)
             }
             }>
                 <h2>New Announcment</h2>
-                <label className="input">
-                    <input className="input__field" type="text" placeholder=" " onChange={(e) => setAnnouncement(e.currentTarget.value)} />
-                    <span className="input__label">New Announcment</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="text" placeholder=" " onChange={(e) => setAnnouncement(e.currentTarget.value)} />
+                    <span className="miniinput__label">New Announcment</span>
                 </label>
                 <br />
 
 
-                <label className="input">
-                    <input className="input__field" type="checkbox" placeholder=" " value="Operating" name="department" onChange={(e) => setDepartment_id(e.currentTarget.value)} />
-                    <span className="input__label">Operating</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="checkbox" placeholder=" " value="Operating" name="department" onChange={(e) => setDepartment_id(e.currentTarget.value)} />
+                    <span className="miniinput__label">Operating</span>
                 </label>
 
-                <label className="input">
-                    <input className="input__field" type="checkbox" placeholder=" " value="R&D" name="department" onChange={(e) => setDepartment_id(e.currentTarget.value)} />
-                    <span className="input__label">R&D</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="checkbox" placeholder=" " value="R&D" name="department" onChange={(e) => setDepartment_id(e.currentTarget.value)} />
+                    <span className="miniinput__label">R&D</span>
                 </label>
 
-                <label className="input">
-                    <input className="input__field" type="checkbox" placeholder=" " value="Frontdesk" name="department" onChange={(e) => setDepartment_id(e.currentTarget.value)} />
-                    <span className="input__label">Frontdesk</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="checkbox" placeholder=" " value="Frontdesk" name="department" onChange={(e) => setDepartment_id(e.currentTarget.value)} />
+                    <span className="miniinput__label">Frontdesk</span>
                 </label>
 
                 <div className="button-group">

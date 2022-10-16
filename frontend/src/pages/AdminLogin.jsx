@@ -44,7 +44,7 @@ export default function AdminLogin() {
 
     return (
         <div className="admin-login">
-            <form className="card card--inverted" onSubmit={(e) => {
+            <form className="minicard minicard--inverted" onSubmit={(e) => {
                 e.preventDefault();
                 dispatch(adminLoginThunk(username, password)).then(() => {
                     if (!auth) notify();
@@ -52,14 +52,14 @@ export default function AdminLogin() {
             }
             }>
                 <h2>Admin Login</h2>
-                <label className="input">
-                    <input className="input__field" type="text" placeholder=" " onChange={(e) => setUsername(e.currentTarget.value)} />
-                    <span className="input__label">Username</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="text" placeholder=" " onChange={(e) => setUsername(e.currentTarget.value)} />
+                    <span className="miniinput__label">Username</span>
                 </label>
                 <br />
-                <label className="input">
-                    <input className="input__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
-                    <span className="input__label">Password</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
+                    <span className="miniinput__label">Password</span>
                 </label>
 
                 <div className="button-group">

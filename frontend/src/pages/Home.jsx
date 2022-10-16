@@ -17,7 +17,7 @@ export default function Home() {
             <section id="section-2" className="role-select">
                 {/*  employee */}
                 <br />
-                <div className="card">
+                <div className="minicard">
                     <h3>Employee Login</h3>
                     <div className="button-group">
                         <a href="/employee_login"><button>Login</button></a>
@@ -26,7 +26,7 @@ export default function Home() {
                 <br />
 
                 {/* admin  */}
-                <div className="card">
+                <div className="minicard minicard--inverted">
                     <h3>Admin Login</h3>
                     <div className="button-group">
                         <a href="/admin_login"><button>Login</button></a>

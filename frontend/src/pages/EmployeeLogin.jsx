@@ -31,21 +31,21 @@ export default function EmployeeLogin() {
 
     return (
         <div className="employee-login">
-            <form className="card" onSubmit={(e) => {
+            <form className="minicard" onSubmit={(e) => {
                 e.preventDefault();
                 dispatch(employeeLoginThunk(username, password)).then(() => {
                     if (!auth) notify();
                 })
             }} >
                 <h2>Employee Login</h2>
-                <label className="input">
-                    <input className="input__field" type="text" placeholder=" " onChange={(e) => setUsername(e.currentTarget.value)} />
-                    <span className="input__label">Username</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="text" placeholder=" " onChange={(e) => setUsername(e.currentTarget.value)} />
+                    <span className="miniinput__label">Username</span>
                 </label>
                 <br />
-                <label className="input">
-                    <input className="input__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
-                    <span className="input__label">Password</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
+                    <span className="miniinput__label">Password</span>
                 </label>
                 <div className="button-group">
                     <button>Send</button>

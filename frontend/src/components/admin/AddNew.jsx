@@ -7,22 +7,22 @@ export default function AddNew() {
     return (
         <div>AddNew Page
 
-            <form className="card card--inverted" onSubmit={(e) => {
+            <form className="minicard minicard--inverted" onSubmit={(e) => {
                 e.preventDefault();
                 dispatch(adminNewEmployeeThunk())//username, email, password, department_id, title, day_rate, start_date, fName, lName, alias, phone_number, address, gender, date_of_birth
             }
             }>
                 <h2>New Employee</h2>
-                <label className="input">
-                    <input className="input__field" type="text" placeholder=" " />
-                    <span className="input__label">New Announcment</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="text" placeholder=" " />
+                    <span className="miniinput__label">New Announcment</span>
                 </label>
                 <br />
 
 
-                <label className="input">
-                    <input className="input__field" type="checkbox" placeholder=" " />
-                    <span className="input__label">Department</span>
+                <label className="miniinput">
+                    <input className="miniinput__field" type="checkbox" placeholder=" " />
+                    <span className="miniinput__label">Department</span>
                 </label>
 
                 <div className="button-group">

@@ -73,7 +73,7 @@ mark {
   padding: 0 0.2em;
 }
 
-.card {
+.minicard {
   background: var(--color-background);
   padding: calc(4 * var(--size-bezel));
   margin-top: calc(4 * var(--size-bezel));
@@ -103,8 +103,9 @@ mark {
   padding: 1rem;
 }
 
-.input {
+.miniinput {
   position: relative;
+  width: 85vw;
 
   &__label {
     position: absolute;
@@ -134,7 +135,7 @@ mark {
 
     &:focus,
     &:not(:placeholder-shown) {
-      & + .input__label {
+      & + .miniinput__label {
         transform: translate(0.25rem, -65%) scale(0.8);
         color: var(--color-accent);
       }
