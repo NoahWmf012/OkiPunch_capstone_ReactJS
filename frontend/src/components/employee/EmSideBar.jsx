@@ -1,10 +1,8 @@
 import React from "react";
-import SideBarOption from "./SideBarOption.jsx";
 import CropFreeIcon from '@material-ui/icons/CropFree';
 import TodayIcon from '@material-ui/icons/Today';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import { Link } from "react-router-dom";
 
 //Nav bar
 import Container from 'react-bootstrap/Container';

@@ -150,6 +150,9 @@ export const employeeLoginThunk = (username, password) => async dispatch => {
 export const employeePunchOutThunk = (employee_id, out_time) => async dispatch => {
     //handle 'daily_attendance' table
     var employee_data = await axios.get(`${process.env.REACT_APP_API_SERVER}/employee/punch/${employee_id}`);
+    if (employee_data.data === undefined || employee_data.data === null || employee_data.data === "") {
+        return false;
+    }
     var in_time = employee_data.data.in_time;
 
     var status = "FULL_DAY";
@@ -209,6 +212,8 @@ export const employeePunchOutThunk = (employee_id, out_time) => async dispatch =
         return date;
     }
     await axios.post(`${process.env.REACT_APP_API_SERVER}/employee/day_rate`, { employee_id, day_rate: salary.data.day_rate, work_status: status, work_date: getCurrentDate(), daily_salary });
+
+    return true;
 }
 
 export const employeeGetCalendarRecordThunk = (id) => async dispatch => {

@@ -27,7 +27,7 @@ export default function AdminLogin() {
 
     useEffect(() => {
         if (auth) {
-            navigate(`/${role}`)
+            navigate(`/${role}/showallemployee`)
         }
     }, [auth, role, navigate]);
 

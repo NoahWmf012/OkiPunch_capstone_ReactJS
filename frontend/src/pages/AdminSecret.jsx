@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// import { logoutThunk } from '../redux/authSlice';
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Outlet } from "react-router-dom";

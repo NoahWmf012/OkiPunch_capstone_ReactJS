@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { employeeLoginThunk } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
-import "./EmployeeLogin.scss";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,6 +12,7 @@ export default function EmployeeLogin() {
     const role = useSelector((state) => state.authStore.role);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const notify = () => toast.error('Incorrect Username or Password', {
         position: "top-center",
         autoClose: 2000,
@@ -23,9 +23,10 @@ export default function EmployeeLogin() {
         progress: undefined,
         theme: "dark",
     });
+
     useEffect(() => {
         if (auth) {
-            navigate(`/${role}`);
+            navigate(`/${role}/calendar`);
         }
     }, [auth, role, navigate]);
 

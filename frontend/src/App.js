@@ -38,11 +38,11 @@ function App() {
             <AdminSecret />
           </RequireAdminAuth>
         } >
-          {/* <Route path='addnew' element={<AddNew />} /> */}
+          {/* <Route path='addnew' element={<AddNew />} />
           <Route path='announcement' element={<Announcement />} />
+          <Route path='layoff' element={<Layoff />} /> */}
           <Route path='showonecalendar' element={<ShowOneCalendar />} />
           <Route path='adestatement' element={<EStatement />} />
-          <Route path='layoff' element={<Layoff />} />
           <Route path='qrreader' element={<QRReader />} />
           <Route path='showallemployee' element={<ShowAllList />} />
           <Route path='showoneinfo' element={<ShowOneInfo />} />
@@ -57,6 +57,7 @@ function App() {
           <Route path='punch' element={<EmPunch />} />
           <Route path='sidebar' element={<EmSideBar />} />
         </Route>
+        <Route path='*' element={<>Incorrect URL. Press <a href='/'>HERE</a> to the Home Page</>} />
       </Routes>
     </div>
   );
