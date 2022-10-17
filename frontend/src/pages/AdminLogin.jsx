@@ -6,10 +6,6 @@ import "./AdminLogin.scss";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-//add alert if the invalid role / incorrect pw / username
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-
 export default function AdminLogin() {
     const [username, setUsername] = useState("Insert Username");
     const [password, setPassword] = useState("Insert Password");
@@ -34,13 +30,6 @@ export default function AdminLogin() {
             navigate(`/${role}`)
         }
     }, [auth, role, navigate]);
-
-    //add alert if the invalid role / incorrect pw / username
-    // const notify = () => toast("Wow so easy!");
-    // <div>
-    //     <button onClick={notify}>Notify!</button>
-    //     <ToastContainer />
-    // </div>
 
     return (
         <div className="admin-login">

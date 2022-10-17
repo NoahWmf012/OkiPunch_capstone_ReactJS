@@ -20,7 +20,7 @@ export default function Home() {
                 <div className="minicard">
                     <h3>Employee Login</h3>
                     <div className="button-group">
-                        <a href="/employee_login"><button>Login</button></a>
+                        <button onClick={() => { navigate(`/employee_login`) }}>Login</button>
                     </div>
                 </div>
                 <br />
@@ -29,7 +29,7 @@ export default function Home() {
                 <div className="minicard minicard--inverted">
                     <h3>Admin Login</h3>
                     <div className="button-group">
-                        <a href="/admin_login"><button>Login</button></a>
+                        <button onClick={() => { navigate(`/admin_login`) }}>Login</button>
                     </div>
                 </div>
             </section>

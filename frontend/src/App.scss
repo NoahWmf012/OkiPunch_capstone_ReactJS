@@ -144,7 +144,7 @@ mark {
 }
 
 .button-group {
-  margin-top: calc(var(--size-bezel) * 2.5);
+  margin-top: calc(var(--size-bezel) * 2.5) !important; 
 }
 
 button {
@@ -152,7 +152,7 @@ button {
   padding: var(--size-bezel) calc(var(--size-bezel) * 2);
   background: var(--color-accent);
   border: none;
-  border-radius: var(--size-radius);
+  border-radius: var(--size-radius) !important;
   font-weight: 900;
 
   &[type="reset"] {
@@ -162,11 +162,11 @@ button {
 }
 
 button:hover {
-  cursor: pointer;
+  cursor: pointer!important;
 }
 
 button + button {
-  margin-left: calc(var(--size-bezel) * 2);
+  margin-left: calc(var(--size-bezel) * 2)!important;
 }
 
 .icon {

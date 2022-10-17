@@ -13,6 +13,12 @@ export default function ShowAllList() {
             setList(e);
         })
     }, [dispatch])
+
+    const style = {
+        color: "black",
+        marginLeft: "2px"
+    }
+
     return (
         <div>
             <SearchBar getData={(data) => {
@@ -40,15 +46,15 @@ export default function ShowAllList() {
                     })}
 
                     <Link to="/admin/showonecalendar" state={{ employee_id: e.employee_id }}>
-                        <button>Calendar</button>
+                        <button style={style}>Calendar</button>
                     </Link>
 
                     <Link to="/admin/showoneinfo" state={{ employee_id: e.employee_id }}>
-                        <button>Personal Info</button>
+                        <button style={style}>Personal Info</button>
                     </Link>
 
                     <Link to="/admin/adestatement" state={{ employee_id: e.employee_id }}>
-                        <button>E-statement</button>
+                        <button style={style}>E-statement</button>
                     </Link>
                     <br />
                     <br />

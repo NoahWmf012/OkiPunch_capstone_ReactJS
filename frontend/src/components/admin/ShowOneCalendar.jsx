@@ -57,8 +57,10 @@ export default function ShowOneCalendar() {
     function addEvent() {
         toggleModal(2);
     }
+
     return (
         <div>
+            <h3 style={{ textAlign: "center" }}>Employee ID: {employee_id}</h3>
             <RevoCalendar
                 events={eventList}
                 sidebarWidth={100}

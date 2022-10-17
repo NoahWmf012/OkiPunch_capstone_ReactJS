@@ -17,12 +17,6 @@ QRCode.toFile(
         }
     }
 )
-
-// QRCode.toDataURL(stJon, function (err, url) {
-//     if (err) return console.log(err);
-//     console.log(url);
-// })
-
 class emAuthRouter {
     constructor(express, passport, bcrypt, knex) {
         this.express = express;
@@ -87,7 +81,6 @@ class emAuthRouter {
             try {
                 let data = await this.knex('daily_attendance').where({ employee_id });
                 let _data = await this.knex('daily_attendance').where({ employee_id }).select('id', 'date')
-                console.log("_data:_data", _data)
                 res.json(data);
             } catch (error) {
                 res.json("Invalide to get punch record: ", error);
@@ -122,7 +115,6 @@ class emAuthRouter {
             //table: daily_attendance
             // let employee_id = req.params.employee_id;
             let { employee_id, day_rate, work_status, work_date, daily_salary } = req.body;
-            console.log("day_rate, work_status, work_date, daily_salary:", day_rate, work_status, work_date, daily_salary)
             try {
                 let data = await this.knex('salary').insert({ employee_id, day_rate, work_status, work_date, daily_salary }).returning('id');
                 res.json(data);
@@ -135,7 +127,6 @@ class emAuthRouter {
             //table: daily_attendance, salary
             let { id, out_time, day_working_hour, status } = req.body;
             let data = await this.knex('daily_attendance').where({ id }).first();
-            console.log("id, out_time, day_working_hour, status :", id, out_time, day_working_hour, status)
             if (data) {
                 try {
                     let data = await this.knex('daily_attendance').where({ id }).update({ out_time, day_working_hour, status });

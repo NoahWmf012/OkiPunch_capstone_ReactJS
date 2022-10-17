@@ -238,6 +238,7 @@ export const employeeGetEstatementThunk = (employee_id) => async dispatch => {
     return data;
 }
 
+//for development
 export const logoutThunk = () => dispatch => {
     localStorage.removeItem('TOKEN');
     dispatch(logout());

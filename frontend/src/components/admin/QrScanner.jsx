@@ -39,8 +39,7 @@ export default function QrScanner() {
 
     return (
         <div>
-            <h1>QRReader</h1>
-            <h3>Qr Code Scan by Web Cam</h3>
+            <h1>QR Code Reader</h1>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
                 <QrReader
                     delay={300}

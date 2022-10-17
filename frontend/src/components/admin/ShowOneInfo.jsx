@@ -15,7 +15,7 @@ export default function ShowOneInfo() {
         });
     }, [dispatch, employee_id]);
     return (
-        <div>ShowOneInfo
+        <div>
             {Object.keys(info).map((key, index) => {
                 return (
                     <div key={index}>

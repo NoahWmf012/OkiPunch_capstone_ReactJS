@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const passport = require('passport');
-const setupPassport = require("./passport");
 const bcrypt = require("bcrypt");
 const session = require('express-session');
 const comAuthRouter = require("./Router/adminRouter");
@@ -24,7 +23,7 @@ const port = 8001;
 //express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 auth(knex).initialize();
 
@@ -40,14 +39,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }));
-setupPassport(app, bcrypt, passport, knex);
 app.use(flash());
 
-//animate page
-app.get("/logo", (req, res) => {
-    res.type('.html')
-    res.render('logo');
-})
 
 //set up node router
 app.use("/admin", new comAuthRouter(express, passport, bcrypt, knex).router());

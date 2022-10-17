@@ -35,7 +35,10 @@ export default function EmPunch() {
 
     return (
         <div>
-            <h1>EmPunch</h1>
+            <h1>Instructions:<br /></h1>
+            <h3>Press Punch-in button to generate a QR code when you enter company.<br />
+                Press Punch-out button when you leave company.</h3>
+
             <button onClick={() => genQRcode()}>Punch-in</button>
             <br />
             <img id='qrcode-image' src="" alt="" width="300" />
