@@ -36,11 +36,11 @@ export default function ShowOneCalendar() {
         setModal(!modal);
         setType(_type);
     };
-    if (modal) {
-        document.body.classList.add('active-modal')
-    } else {
-        document.body.classList.remove('active-modal')
-    }
+    // if (modal) {
+    //     document.body.classList.add('active-modal')
+    // } else {
+    //     document.body.classList.remove('active-modal')
+    // }
 
     useEffect(() => {
         dispatch(employeeGetCalendarRecordThunk(employee_id)).then((res) => {
@@ -51,7 +51,6 @@ export default function ShowOneCalendar() {
     function deleteEvent(i) {
         toggleModal(1);
         setItem(i);
-        console.log("eventList[i]:", eventList[i].date)
     }
 
     function addEvent() {
@@ -73,12 +72,12 @@ export default function ShowOneCalendar() {
             {//for delete data
                 modal && type === 1 && (
                     <div className="modal" style={{ zIndex: 99 }}>
+                        {console.log("delete data modal")}
                         <div onClick={toggleModal} className="overlay" ></div>
                         <form className="modal-content" onSubmit={(e) => {
                             e.preventDefault();
                             dispatch(adminPWThunk(id, password)).then((res) => {
                                 if (res === true) {
-                                    console.log("eventList, item:", eventList, item);
                                     dispatch(adminDelCalendarRecordThunk(employee_id, eventList[item].date));
                                     var temp = eventList;
                                     temp.splice(item, 1);
@@ -88,8 +87,7 @@ export default function ShowOneCalendar() {
                                     notify()
                                 }
                             })
-                        }
-                        }>
+                        }}>
                             <h2>Enter your admin password to confirm</h2>
                             <label className="miniinput">
                                 <input className="miniinput__field" type="password" placeholder=" " onChange={(e) => setPassword(e.currentTarget.value)} />
@@ -106,13 +104,12 @@ export default function ShowOneCalendar() {
             {//for add data
                 modal && type === 2 && (
                     <div className="modal" style={{ zIndex: 99 }}>
+                        {console.log("add data modal")}
                         <div onClick={toggleModal} className="overlay" ></div>
                         <form className="modal-content" onSubmit={(e) => {
                             e.preventDefault();
                             dispatch(adminPWThunk(id, password)).then((res) => {
                                 if (res === true) {
-                                    //add data
-
                                     var newEvent = {
                                         name: workStatus,
                                         date: new Date(date),
