@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { employeeGetEstatementThunk } from '../../redux/authSlice'
+import { Card } from 'react-bootstrap'
 
 export default function EStatement() {
 
@@ -16,18 +17,18 @@ export default function EStatement() {
         });
     }, [dispatch, employee_id]);
     return (
-        <div>
-            {Object.keys(info).map((key, index) => {
-                return (
-                    <div key={index}>
-                        <h4>
-                            {key}: {info[key]}
-                        </h4>
-
-                        <hr />
-                    </div>
-                );
-            })}
+        <div className='text-center d-flex justify-content-center mb-2 mt-1'>
+            <Card style={{ width: '30rem' }} >
+                {Object.keys(info).map((key, index) => {
+                    return (
+                        <div key={index}>
+                            <h4>
+                                {key}: {info[key]}
+                            </h4>
+                        </div>
+                    );
+                })}
+            </Card>
         </div>
     )
 }

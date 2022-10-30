@@ -42,7 +42,7 @@ export default function QrScanner() {
             <h1>QR Code Reader</h1>
             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
                 <QrReader
-                    delay={300}
+                    delay={2500}
                     style={{ width: '100%' }}
                     onError={handleErrorWebCam}
                     onScan={handleScanWebCam}

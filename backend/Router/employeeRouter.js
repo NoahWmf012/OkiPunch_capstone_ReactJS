@@ -1,22 +1,5 @@
 const jwt = require("jsonwebtoken");
 const { createClient } = require("redis");
-var QRCode = require('qrcode');
-
-var setJson = {
-    "employee_id": "1",
-    "role": "employee"
-}
-
-const stJon = JSON.stringify(setJson);
-
-QRCode.toFile(
-    'qr.png',
-    stJon, function (err) {
-        if (err) {
-            return console.log("QRCode error:", err);
-        }
-    }
-)
 class emAuthRouter {
     constructor(express, passport, bcrypt, knex) {
         this.express = express;
