@@ -3,6 +3,7 @@ import { adminShowAllListThunk } from '../../redux/authSlice';
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import SearchBar from './SearchBar';
+import { Card } from 'react-bootstrap'
 
 export default function ShowAllList() {
     const dispatch = useDispatch();
@@ -32,34 +33,34 @@ export default function ShowAllList() {
                     return val;
                 } else return false;
             }).map((e) => {
-                return (<div key={e.employee_id}>
+                return (
+                    <div className='text-center d-flex justify-content-center mb-2 mt-1' key={e.employee_id}>
+                        <Card style={{ width: '30rem' }} >
+                            {Object.keys(e).map((key, index) => {
+                                return (
+                                    <div key={index}>
+                                        <h4>
+                                            {key}: {e[key]}
+                                        </h4>
+                                        <hr />
+                                    </div>
+                                );
+                            })}
 
-                    {Object.keys(e).map((key, index) => {
-                        return (
-                            <div key={index}>
-                                <h4>
-                                    {key}: {e[key]}
-                                </h4>
-                                <hr />
-                            </div>
-                        );
-                    })}
+                            <Link to="/admin/showonecalendar" state={{ employee_id: e.employee_id }}>
+                                <button style={style}>Calendar</button>
+                            </Link>
 
-                    <Link to="/admin/showonecalendar" state={{ employee_id: e.employee_id }}>
-                        <button style={style}>Calendar</button>
-                    </Link>
+                            <Link to="/admin/showoneinfo" state={{ employee_id: e.employee_id }}>
+                                <button style={style}>Personal Info</button>
+                            </Link>
 
-                    <Link to="/admin/showoneinfo" state={{ employee_id: e.employee_id }}>
-                        <button style={style}>Personal Info</button>
-                    </Link>
-
-                    <Link to="/admin/adestatement" state={{ employee_id: e.employee_id }}>
-                        <button style={style}>E-statement</button>
-                    </Link>
-                    <br />
-                    <br />
-                    <br />
-                </div>)
+                            <Link to="/admin/adestatement" state={{ employee_id: e.employee_id }}>
+                                <button style={style}>E-statement</button>
+                            </Link>
+                        </Card>
+                    </div>
+                )
             })}
         </div >
     )

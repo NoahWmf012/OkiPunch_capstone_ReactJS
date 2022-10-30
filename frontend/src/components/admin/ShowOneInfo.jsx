@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { employeeGetInfoThunk } from "../../redux/authSlice";
+import { Card } from 'react-bootstrap'
 
 export default function ShowOneInfo() {
     const [info, setInfo] = useState([]);
@@ -15,18 +16,19 @@ export default function ShowOneInfo() {
         });
     }, [dispatch, employee_id]);
     return (
-        <div>
-            {Object.keys(info).map((key, index) => {
-                return (
-                    <div key={index}>
-                        <h4>
-                            {key}: {info[key]}
-                        </h4>
+        <div className='text-center d-flex justify-content-center mb-2 mt-1'>
+            <Card style={{ width: '30rem' }} >
+                {Object.keys(info).map((key, index) => {
+                    return (
+                        <div key={index}>
 
-                        <hr />
-                    </div>
-                );
-            })}
+                            <h4>
+                                {key}: {info[key]}
+                            </h4>
+                        </div>
+                    );
+                })}
+            </Card >
         </div>
     )
 }

@@ -12,7 +12,7 @@ import {
   Announcement,
   ShowOneCalendar,
   EStatement,
-  Layoff,
+  // Layoff,
   QRReader,
   ShowAllList,
   ShowOneInfo,
