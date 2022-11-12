@@ -2,20 +2,21 @@
 
 ### Install Node Packages
 
-`npm install express-flash express passport bcrypt express-session express-handlebars knex dotenv express-session passport-local path pg redis`
+run `npm install express-flash express passport bcrypt express-handlebars knex dotenv express-session passport-local path pg redis cors jsonwebtoken passport-jwt qrcode qrcode-reader`
 
 ### setup for DB connect
 
-- 3 variables in .env
-  `DB_NAME, DB_USERNAME, DB_PASSWORD`
+- create `.env` file
+
+- 4 variables in .env
+  `DB_NAME=?, DB_USERNAME=?, DB_PASSWORD=?, JWT_SECRET=?`
+
+- set up Postgres Database with `DB_NAME, DB_USERNAME, DB_PASSWORD`
 
 - set up dummy data, run:
   `knex migrate:latest`
   `knex seed:run`
 
-### Use two browser for company admin side and employee admin side separately
-
 ### Start the App:
 
-`logo site: http://localhost:8001/logo`
-`root site: http://localhost:8001 `
+run `node app.js` or `nodemon app.js`
