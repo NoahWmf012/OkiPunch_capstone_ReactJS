@@ -2,7 +2,7 @@
 
 ### Install Node Packages
 
-run `npm install express-flash express passport bcrypt express-handlebars knex dotenv express-session passport-local path pg redis cors jsonwebtoken passport-jwt qrcode qrcode-reader`
+run `npm install`
 
 ### setup for DB connect
 
